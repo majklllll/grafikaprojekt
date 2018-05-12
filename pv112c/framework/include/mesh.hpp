@@ -6,6 +6,8 @@
 #include <string>
 #include <memory>
 
+#include "tiny_obj_loader.h"
+
 class Mesh {
 public:
   Mesh(std::vector<float> vertices, std::vector<uint32_t> indices, GLenum mode = GL_TRIANGLES,
@@ -35,7 +37,7 @@ public:
                                GLenum mode = GL_TRIANGLES, GLint position_location = -1, GLint normal_location = -1,
                                GLint tex_coord_location = -1);
 
-  static std::vector<std::unique_ptr<Mesh>> from_file(const std::string &file_name, GLint position_location = -1,
+  static std::vector<std::unique_ptr<Mesh>> from_file(const std::string &file_name,GLint position_location = -1,
                                      GLint normal_location = -1, GLint tex_coord_location = -1);
 
   static Mesh cube(GLint position_location = -1, GLint normal_location = -1, GLint tex_coord_location = -1);
@@ -43,6 +45,7 @@ public:
   static Mesh teapot(GLint position_location = -1, GLint normal_location = -1, GLint tex_coord_location = -1);
 
   ~Mesh();
+
 
 private:
   GLuint vao_id = 0;
@@ -61,3 +64,4 @@ private:
 
   GLenum mode = GL_TRIANGLES;
 };
+

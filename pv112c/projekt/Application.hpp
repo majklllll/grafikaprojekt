@@ -9,6 +9,8 @@
 #include "window.hpp"
 #include "camera.hpp"
 
+#include "tiny_obj_loader.h"
+
 class Application {
 public:
     Application(int initial_window_width, int initial_window_height, const std::string &title)
@@ -56,7 +58,9 @@ private:
 
 
   std::vector<std::unique_ptr<Mesh>> meshes;
-  std::vector<std::unique_ptr<Mesh>> meshes2;
+  //std::vector<tinyobj::material_t> materials;
+
+  //std::vector<std::unique_ptr<Mesh>> meshes2;
   Mesh super_cube = Mesh::teapot();
   Mesh super_whatever = Mesh::teapot();
 
@@ -80,4 +84,7 @@ private:
       Application *this_pointer = static_cast<Application *>(glfwGetWindowUserPointer(window));
       this_pointer->on_resize(width, height);
   }
+
+
+
 };

@@ -36,18 +36,17 @@ void Application::init() {
   teapot.create_vao(position_loc, normal_loc);
 
 
-  cout << 567 << endl;
-  meshes2 = Mesh::from_file("objects/projekt.obj");
-  cout << 890 << endl;
+
+  meshes = Mesh::from_file("objects/projekt.obj");
 
 
-  super_cube = (*meshes2.at(0));
+  super_cube = (*meshes.at(0));
   //super_whatever = (*meshes.at(1));
 
   //(super_cube).create_vao(position_loc, normal_loc);
   //(super_whatever).create_vao(position_loc, normal_loc);
 
-  for(auto const& mesh: meshes2) {
+  for(auto const& mesh: meshes) {
       (*mesh).create_vao(position_loc, normal_loc);
   }
 
@@ -94,14 +93,10 @@ void Application::render() {
     // ...
     glUniformMatrix4fv(projection_matrix_loc, 1, GL_FALSE, glm::value_ptr(projection_matrix));
 
-    // TASK 2: create and set view matrix
-    //         use glm::lookAt(eye position, center of view, up vector of space) function
-    //         choose point of view such that you can see entire cube
-    //         use glm::vec3(0.0f, 0.0f, 0.0f) as a center for simplicity
-    //         use glm::vec3(0.0f, 1.0f, 0.0f) - Y axis pointing up - as up vector
-    //         go to main.vert again and add multiplication using view matrix
-    // ...
-    glm::mat4 view_matrix = glm::lookAt(camera.get_eye_position(), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+
+    glm::mat4 view_matrix = glm::lookAt(camera.get_eye_position(), camera.get_center_of_view(), glm::vec3(0.0f, 1.0f, 0.0f));
     glUniformMatrix4fv(view_matrix_loc, 1, GL_FALSE, glm::value_ptr(view_matrix));
 
     // Draw cube
@@ -117,7 +112,7 @@ void Application::render() {
     // glm::mat4 cube_model_matrix = glm::mat4(1.0);
     // ...
       glm::mat4 cube_model_matrix = glm::mat4(1.0);
-      glm::mat4 model_matrix = glm::rotate(cube_model_matrix, time, glm::vec3(0.0f, 1.0f, 0.0f));
+      glm::mat4 model_matrix = cube_model_matrix; //glm::rotate(cube_model_matrix, time, glm::vec3(0.0f, 1.0f, 0.0f));
       glUniformMatrix4fv(model_matrix_loc, 1, GL_FALSE, glm::value_ptr(model_matrix));
 
       //cube.draw();
@@ -125,7 +120,7 @@ void Application::render() {
       // TASK 4: draw another object, for example teapot or sphere
       glUniform3f(color_loc, 0.1f, 0.2f, 0.99f);
       //glUniform1f(time_loc, time-0.5f);
-      (*meshes2[0]).draw();
+      (*meshes[0]).draw();
 
 
       /*glUniform3f(color_loc, 0.1f, 0.2f, 0.99f);
@@ -165,15 +160,20 @@ void Application::on_key(int key, int scancode, int actions, int mods) {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         break;
     case GLFW_KEY_W:
+        camera.cam.x--;
+        camera.update_eye_pos();
         break;
     case GLFW_KEY_S:
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        camera.cam.x++;
+        camera.update_eye_pos();
         break;
     case GLFW_KEY_A:
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        camera.cam.z++;
+        camera.update_eye_pos();
         break;
     case GLFW_KEY_D:
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        camera.cam.z--;
+        camera.update_eye_pos();
         break;
     }
 }

@@ -4,7 +4,9 @@
 #include "sphere.inl"
 #include "teapot.inl"
 
+
 #include <iostream>
+
 using namespace std;
 
 #define TINYOBJLOADER_IMPLEMENTATION
@@ -209,6 +211,18 @@ std::vector<std::unique_ptr<Mesh>> Mesh::from_file(const std::string &file_name,
   std::string err;
   bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, file_name.c_str());
 
+
+/*cout << "materials:" << size(materials.at(0).diffuse) <<endl;
+cout << "materials:" << size(materials.at(0).ambient) <<endl;
+cout << "materials:" << size(materials.at(0).specular) <<endl;*/
+cout << "materials:" << materials.size() <<endl;
+    /*for (size_t i = 0; i < materials.size(); i++) {
+        unique_ptr<Material> new_mat = std::make_unique<Material>(materials[i].ambient,materials[i].diffuse,materials[i].specular);
+        out_materials.push_back(new_mat);
+    }*/
+
+
+
   if (!err.empty()) { // `err` may contain warning message.
     std::cerr << err << std::endl;
   }
@@ -267,3 +281,5 @@ Mesh::~Mesh() {
   glDeleteBuffers(1, &this->tex_coords_buffer_id);
   glDeleteBuffers(1, &this->indices_buffer_id);
 }
+
+

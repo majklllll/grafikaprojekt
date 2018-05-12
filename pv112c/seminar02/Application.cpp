@@ -36,11 +36,11 @@ void Application::init() {
   teapot.create_vao(position_loc, normal_loc);
 
 
-  cout << 567 << endl;
+  /*cout << 567 << endl;
   meshes = Mesh::from_file("objects/more.obj");
   cout << 890 << endl;
   meshes2 = Mesh::from_file("objects/twosq.obj");
-  cout << meshes2.size() << endl;
+  cout << meshes2.size() << endl;*/
 
   super_cube = (*meshes.at(0));
   super_whatever = (*meshes.at(1));

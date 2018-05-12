@@ -46,10 +46,11 @@ private:
   /// True or false if moused buttons are pressed and the user rotates/zooms the camera
   bool is_rotating, is_zooming;
 
+public:
   /// Recomputes 'eye_position' from 'angle_direction', 'angle_elevation', and 'distance'
   void update_eye_pos();
 
-public:
+
   Camera();
 
   /// Call when the user presses or releases a mouse button (see glfwSetMouseButtonCallback)
@@ -60,4 +61,14 @@ public:
 
   /// Returns the position of the eye in world space coordinates
   glm::vec3 get_eye_position() const;
+
+  glm::vec3 get_center_of_view() const;
+
+  struct cameraman {
+    float x = 10.0f;
+    float y = 0.0f;
+    float z = 10.0f;
+  } cam;
+
+
 };
