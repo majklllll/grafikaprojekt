@@ -58,7 +58,7 @@ private:
 
 
   std::vector<std::unique_ptr<Mesh>> meshes;
-  //std::vector<tinyobj::material_t> materials;
+  std::vector<tinyobj::material_t> materials;
 
   //std::vector<std::unique_ptr<Mesh>> meshes2;
   Mesh super_cube = Mesh::teapot();

@@ -8,8 +8,10 @@
 
 #include "tiny_obj_loader.h"
 
+
 class Mesh {
 public:
+
   Mesh(std::vector<float> vertices, std::vector<uint32_t> indices, GLenum mode = GL_TRIANGLES,
        GLint position_location = -1, GLint normal_location = -1, GLint tex_coord_location = -1)
       : Mesh(vertices, std::vector<float>(), std::vector<float>(), indices, mode, position_location, normal_location,
@@ -39,6 +41,7 @@ public:
 
   static std::vector<std::unique_ptr<Mesh>> from_file(const std::string &file_name,GLint position_location = -1,
                                      GLint normal_location = -1, GLint tex_coord_location = -1);
+  static std::vector<tinyobj::material_t> Mesh::loadMaterials(const std::string &file_name);
 
   static Mesh cube(GLint position_location = -1, GLint normal_location = -1, GLint tex_coord_location = -1);
   static Mesh sphere(GLint position_location = -1, GLint normal_location = -1, GLint tex_coord_location = -1);

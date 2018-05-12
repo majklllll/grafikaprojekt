@@ -11,8 +11,6 @@ using namespace std;
 void Application::init() {
   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
   glClearDepth(1.0);
-
-  // TASK 5: Enable depth test
   glEnable(GL_DEPTH_TEST);
 
   // Create shader program
@@ -33,11 +31,12 @@ void Application::init() {
 
   //cube.create_vao(position_loc, normal_loc);
   //sphere.create_vao(position_loc, normal_loc);
-  teapot.create_vao(position_loc, normal_loc);
+  //teapot.create_vao(position_loc, normal_loc);
 
 
 
   meshes = Mesh::from_file("objects/projekt.obj");
+  materials = Mesh::loadMaterials("objects/projekt.obj");
 
 
   super_cube = (*meshes.at(0));

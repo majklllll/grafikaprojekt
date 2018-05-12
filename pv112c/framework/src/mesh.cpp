@@ -212,17 +212,6 @@ std::vector<std::unique_ptr<Mesh>> Mesh::from_file(const std::string &file_name,
   bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, file_name.c_str());
 
 
-/*cout << "materials:" << size(materials.at(0).diffuse) <<endl;
-cout << "materials:" << size(materials.at(0).ambient) <<endl;
-cout << "materials:" << size(materials.at(0).specular) <<endl;*/
-cout << "materials:" << materials.size() <<endl;
-    /*for (size_t i = 0; i < materials.size(); i++) {
-        unique_ptr<Material> new_mat = std::make_unique<Material>(materials[i].ambient,materials[i].diffuse,materials[i].specular);
-        out_materials.push_back(new_mat);
-    }*/
-
-
-
   if (!err.empty()) { // `err` may contain warning message.
     std::cerr << err << std::endl;
   }
@@ -268,6 +257,16 @@ cout << "materials:" << materials.size() <<endl;
   }
 
   return meshes;
+}
+
+std::vector<tinyobj::material_t> Mesh::loadMaterials(const std::string &file_name) {
+  tinyobj::attrib_t attrib;
+  std::vector<tinyobj::shape_t> shapes;
+  std::vector<tinyobj::material_t> materials;
+
+  std::string err;
+  bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, file_name.c_str());
+  return materials;
 }
 
 Mesh::~Mesh() {
