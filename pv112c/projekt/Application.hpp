@@ -33,6 +33,7 @@ public:
 
   // auxiliary methods
   void drawMesh(Mesh, size_t);
+  void createSkyBox();
 
 
 
@@ -41,23 +42,17 @@ public:
 
   void set_material(int material_index);
 
+  void loadObjFiles();
+
 private:
-  // application(yours) variables
+  // application variables
   std::unique_ptr<ShaderProgram> program;
   Camera camera;
-
-  // Locations of vertex attributes position and normal
-  //GLint position_loc = -1;
-  //GLint normal_loc = -1;
 
   // Locations of uniforms for positioning and projecting object
   GLint model_matrix_loc = -1;
   GLint view_matrix_loc = -1;
   GLint projection_matrix_loc = -1;
-
-  // Location of color uniform
-  //GLint color_loc = -1;
-  //GLint time_loc = -1;
 
   // Light related
   GLint light_position_loc = -1;
@@ -74,21 +69,9 @@ private:
   GLint material_specular_color_loc = -1;
   GLint material_shininess_loc = -1;
 
-
-
-
-
-  Mesh cube = Mesh::cube();
-  Mesh sphere = Mesh::sphere();
-  Mesh teapot = Mesh::teapot();
-
-
   std::vector<std::unique_ptr<Mesh>> meshes;
   std::vector<tinyobj::material_t> materials;
 
-  //std::vector<std::unique_ptr<Mesh>> meshes2;
-  Mesh super_cube = Mesh::teapot();
-  Mesh super_whatever = Mesh::teapot();
 
 
   static void on_key(GLFWwindow *window, int key, int scancode, int actions, int mods) {
@@ -111,6 +94,5 @@ private:
       this_pointer->on_resize(width, height);
   }
 
-
-
+  void initialize_locs();
 };
