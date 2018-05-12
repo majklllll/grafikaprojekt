@@ -54,10 +54,6 @@ void Application::init() {
   for(auto const& mesh: meshes) {
       (*mesh).create_vao(position_loc, normal_loc);
   }
-
-
-
-
 }
 
 void Application::render() {
@@ -94,43 +90,47 @@ void Application::render() {
     glUniform3f(light_specular_color_loc, 1.0f, 1.0f, 1.0f);
 
     //cube.bind_vao();
-    (*meshes[0]).bind_vao();
 
-    glm::mat4 model_matrix = glm::mat4(1.0f);
-    glUniformMatrix4fv(model_matrix_loc, 1, GL_FALSE, glm::value_ptr(model_matrix));
-
-    // The materials are set for every object
-    glUniform3f(material_ambient_color_loc, 0.329412f, 0.223529f, 0.027451f);
-    glUniform3f(material_diffuse_color_loc, 0.780392f, 0.568627f, 0.113725f);
-    glUniform3f(material_specular_color_loc, 0.992157f, 0.941176f, 0.807843f);
-    glUniform1f(material_shininess_loc, 27.8974f);
-
-
-      (*meshes[0]).draw();
-
-
-    //super_cube.bind_vao();
-
-    //glUniform3f(color_loc, 1.0f, 1.0f, 1.0f);
+    for(size_t i=0; i < meshes.size(); i++) {
+        drawMesh(*meshes[i], i);
+        (*meshes[i]).draw();
+    }
 
 //5      glm::mat4 cube_model_matrix = glm::mat4(1.0);
 //5      glm::mat4 model_matrix = cube_model_matrix; //glm::rotate(cube_model_matrix, time, glm::vec3(0.0f, 1.0f, 0.0f));
 //5      glUniformMatrix4fv(model_matrix_loc, 1, GL_FALSE, glm::value_ptr(model_matrix));
 
-      //cube.draw();
-
-      // TASK 4: draw another object, for example teapot or sphere
-      //glUniform3f(color_loc, 0.1f, 0.2f, 0.99f);
-      //glUniform1f(time_loc, time-0.5f);
-      /*glUniform3f(color_loc, 0.1f, 0.2f, 0.99f);
       //glUniform1f(time_loc, time);
-      (*meshes2[1]).draw();*/
+}
 
-      /*for(auto const& mesh: meshes2) {
-          (*mesh).draw();
-      }*/
 
+
+void Application::drawMesh(Mesh mesh, size_t material_index = -1) {
+    mesh.bind_vao();
+    glm::mat4 model_matrix = glm::mat4(1.0f);
+    glUniformMatrix4fv(model_matrix_loc, 1, GL_FALSE, glm::value_ptr(model_matrix));
+
+    // The materials are set for every object
+    /*glUniform3f(material_ambient_color_loc, 0.329412f, 0.223529f, 0.027451f);
+    glUniform3f(material_diffuse_color_loc, 0.780392f, 0.568627f, 0.113725f);
+    glUniform3f(material_specular_color_loc, 0.992157f, 0.941176f, 0.807843f);
+    glUniform1f(material_shininess_loc, 27.8974f);*/
+
+    if(material_index != -1)
+        set_material(material_index);
+}
+
+void Application::set_material(int index)
+{
+    int R=0,G=1,B=2;
+    if(index >= 0) {
+        glUniform3f(material_ambient_color_loc, materials[index].ambient[R], materials[index].ambient[G], materials[index].ambient[B]);
+        glUniform3f(material_diffuse_color_loc, materials[index].diffuse[R], materials[index].diffuse[G], materials[index].diffuse[B]);
+        glUniform3f(material_specular_color_loc, materials[index].specular[R], materials[index].specular[G], materials[index].specular[B]);
+        glUniform1f(material_shininess_loc, 27.8974f);
     }
+}
+
 
 void Application::on_mouse_position(double x, double y) {
     camera.on_mouse_move(x, y);

@@ -66,7 +66,7 @@ public:
 
   struct cameraman {
     float x = 10.0f;
-    float y = 0.0f;
+    float y = 1.0f;
     float z = 10.0f;
   } cam;
 

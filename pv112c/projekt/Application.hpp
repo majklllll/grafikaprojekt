@@ -31,8 +31,15 @@ public:
   void on_mouse_button(int button, int action, int mods);
   void on_resize(int width, int height);
 
+  // auxiliary methods
+  void drawMesh(Mesh, size_t);
+
+
+
   // window must be first variable declared!
   Window window;
+
+  void set_material(int material_index);
 
 private:
   // application(yours) variables
