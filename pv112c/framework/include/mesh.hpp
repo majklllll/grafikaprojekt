@@ -47,8 +47,10 @@ public:
   static Mesh sphere(GLint position_location = -1, GLint normal_location = -1, GLint tex_coord_location = -1);
   static Mesh teapot(GLint position_location = -1, GLint normal_location = -1, GLint tex_coord_location = -1);
 
-  ~Mesh();
+  static Mesh skybox();
 
+  ~Mesh();
+  static std::vector<float> get_skybox();
 
 private:
   GLuint vao_id = 0;
@@ -66,5 +68,6 @@ private:
   GLint tex_coord_location = -1;
 
   GLenum mode = GL_TRIANGLES;
+
 };
 

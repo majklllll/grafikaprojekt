@@ -15,6 +15,9 @@ void Application::initialize_locs()
     view_matrix_loc = program->get_uniform_location("view_matrix");
     projection_matrix_loc = program->get_uniform_location("projection_matrix");
 
+    view_matrix_skybox_loc = skybox->get_uniform_location("view_matrix");
+    projection_matrix_skybox_loc = skybox->get_uniform_location("projection_matrix");
+
     // Get location of color uniform
     //time_loc = program->get_uniform_location("time");
 
@@ -36,6 +39,13 @@ void Application::loadObjFiles()
     materials = Mesh::loadMaterials("objects/projekt.obj");
 }
 
+void Application::create_vaos(GLint normal_loc, GLint position_loc)
+{
+    for(auto const& mesh: meshes) {
+        (*mesh).create_vao(position_loc, normal_loc);
+    }
+}
+
 void Application::init() {
   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
   glClearDepth(1.0);
@@ -43,18 +53,19 @@ void Application::init() {
 
   // Create shader program
   program = make_unique<ShaderProgram>("shaders/main.vert", "shaders/main.frag");
+  skybox = make_unique<ShaderProgram>("shaders/skybox.vert", "shaders/skybox.frag");
 
   // Get locations of vertex attributes position and normal
   GLint position_loc = program->get_attribute_location("position");
   GLint normal_loc = program->get_attribute_location("normal");
+  GLint position_skybox_loc = skybox->get_attribute_location("position");
 
   initialize_locs();
   loadObjFiles();
 
-  for(auto const& mesh: meshes) {
-      (*mesh).create_vao(position_loc, normal_loc);
-  }
+  cube.create_vao(position_skybox_loc, -1);//maybe error!!!!!!!!!!!!!!!!!!!!!!!!!
 
+  create_vaos(normal_loc, position_loc);
   createSkyBox();
 }
 
@@ -71,8 +82,13 @@ void Application::render() {
     // Clear screen, both color and depth
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
+    render_sky_box();
+
+
+
     // Bind(use) our program
-    program->use();
+    /*program->use();
 
 
     glm::mat4 projection_matrix = glm::perspective(
@@ -91,12 +107,11 @@ void Application::render() {
     glUniform3f(light_diffuse_color_loc, 1.0f, 1.0f, 1.0f);
     glUniform3f(light_specular_color_loc, 1.0f, 1.0f, 1.0f);
 
-    //cube.bind_vao();
 
     for(size_t i=0; i < meshes.size(); i++) {
         drawMesh(*meshes[i], i);
         (*meshes[i]).draw();
-    }
+    }*/
 
 
 
@@ -122,7 +137,53 @@ void Application::drawMesh(Mesh mesh, size_t material_index = -1) {
 
 void Application::createSkyBox()
 {
+    std::string faces[6] =
+    {
+        "right.jpg",
+        "left.jpg",
+        "up.jpg",
+        "down.jpg",
+        "front.jpg",
+        "back.jpg",
+    };
 
+    skyboxID = load_texture_cubemap(faces);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+}
+
+void Application::render_sky_box()
+{
+    // Get the aspect ratio of window size
+    float width = float(window.get_width());
+    float height = float(window.get_height());
+    float aspect_ratio = width / height;
+
+    glDepthMask(GL_FALSE);
+    skybox->use();
+
+
+    glm::mat4 projection_matrix = glm::perspective(
+                glm::radians(45.0f),
+                aspect_ratio,
+                0.1f,
+                100.0f);
+
+    glUniformMatrix4fv(projection_matrix_skybox_loc, 1, GL_FALSE, glm::value_ptr(projection_matrix));
+    glm::mat4 view_matrix = glm::lookAt(camera.get_eye_position(), camera.get_center_of_view(), glm::vec3(0.0f, 1.0f, 0.0f));
+    glUniformMatrix4fv(view_matrix_skybox_loc, 1, GL_FALSE, glm::value_ptr(view_matrix));
+
+    cube.bind_vao();
+
+    //glUniform1i(skybox_loc, 0);
+    //glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxID);
+    cube.draw();
+
+    glDepthMask(GL_TRUE);
 }
 
 void Application::set_material(int index)

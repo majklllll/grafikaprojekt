@@ -13,5 +13,20 @@ target_include_directories(projekt
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/shaders/main.vert" "${CMAKE_CURRENT_BINARY_DIR}/shaders/main.vert" COPYONLY)
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/shaders/main.frag" "${CMAKE_CURRENT_BINARY_DIR}/shaders/main.frag" COPYONLY)
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/shaders/skybox.vert" "${CMAKE_CURRENT_BINARY_DIR}/shaders/skybox.vert" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/shaders/skybox.frag" "${CMAKE_CURRENT_BINARY_DIR}/shaders/skybox.frag" COPYONLY)
+
+
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/objects/projekt.obj" "${CMAKE_CURRENT_BINARY_DIR}/objects/projekt.obj" COPYONLY)
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/objects/projekt.mtl" "${CMAKE_CURRENT_BINARY_DIR}/projekt.mtl" COPYONLY)
+
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/up.jpg" "${CMAKE_CURRENT_BINARY_DIR}/up.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/down.jpg" "${CMAKE_CURRENT_BINARY_DIR}/down.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/front.jpg" "${CMAKE_CURRENT_BINARY_DIR}/front.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/back.jpg" "${CMAKE_CURRENT_BINARY_DIR}/back.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/left.jpg" "${CMAKE_CURRENT_BINARY_DIR}/left.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/right.jpg" "${CMAKE_CURRENT_BINARY_DIR}/right.jpg" COPYONLY)
+
+

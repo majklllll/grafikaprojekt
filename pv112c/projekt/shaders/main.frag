@@ -3,10 +3,12 @@
 //uniform vec3 color;
 //uniform float time;
 
+uniform samplerCube skybox;
+
+
 uniform vec3 eye_position;
 in vec3 vertex_position_ws;
 in vec3 vertex_normal_ws;
-
 
 uniform vec4 light_position;
 uniform vec3 light_ambient_color;
@@ -16,6 +18,8 @@ uniform vec3 material_ambient_color;
 uniform vec3 material_diffuse_color;
 uniform vec3 material_specular_color;
 uniform float material_shininess;
+
+in vec3 TexCoords;
 
 
 out vec4 final_color;
@@ -48,6 +52,8 @@ void main()
                specular_intensity * light_specular_color * material_specular_color;
 
   final_color = vec4(light, 1.0);
+
+
 
 
 

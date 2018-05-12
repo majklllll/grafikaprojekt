@@ -8,6 +8,7 @@
 #include "program.hpp"
 #include "window.hpp"
 #include "camera.hpp"
+#include "texture.hpp"
 
 #include "tiny_obj_loader.h"
 
@@ -34,6 +35,7 @@ public:
   // auxiliary methods
   void drawMesh(Mesh, size_t);
   void createSkyBox();
+  void render_sky_box();
 
 
 
@@ -44,9 +46,12 @@ public:
 
   void loadObjFiles();
 
+  void create_vaos(GLint normal_loc, GLint position_loc);
+
 private:
   // application variables
   std::unique_ptr<ShaderProgram> program;
+  std::unique_ptr<ShaderProgram> skybox;
   Camera camera;
 
   // Locations of uniforms for positioning and projecting object
@@ -72,6 +77,13 @@ private:
   std::vector<std::unique_ptr<Mesh>> meshes;
   std::vector<tinyobj::material_t> materials;
 
+  //skybox stuff
+  GLint projection_matrix_skybox_loc = -1;
+  GLint view_matrix_skybox_loc = -1;
+  unsigned int skyboxID = -1;
+  GLint skybox_loc = -1;
+
+  Mesh cube = Mesh::skybox();
 
 
   static void on_key(GLFWwindow *window, int key, int scancode, int actions, int mods) {

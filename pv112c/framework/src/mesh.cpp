@@ -202,6 +202,16 @@ Mesh Mesh::teapot(GLint position_location, GLint normal_location, GLint tex_coor
                                 position_location, normal_location, tex_coord_location);
 }
 
+Mesh Mesh::skybox()
+{
+    std::vector<float> vertices = get_skybox();
+    std::vector<float> normals;
+    std::vector<float> tex_coords;
+    std::vector<uint32_t> indices;
+    return Mesh(vertices , normals, tex_coords, indices);
+
+}
+
 std::vector<std::unique_ptr<Mesh>> Mesh::from_file(const std::string &file_name, GLint position_location, GLint normal_location,
                                   GLint tex_coord_location) {
   tinyobj::attrib_t attrib;
@@ -281,4 +291,52 @@ Mesh::~Mesh() {
   glDeleteBuffers(1, &this->indices_buffer_id);
 }
 
+std::vector<float> Mesh::get_skybox(){
+     float x[] = {
+        -1.0f,  1.0f, -1.0f,
+        -1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+
+        -1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,
+
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+
+        -1.0f, -1.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,
+
+        -1.0f,  1.0f, -1.0f,
+         1.0f,  1.0f, -1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f,
+        -1.0f,  1.0f, -1.0f,
+
+        -1.0f, -1.0f, -1.0f,
+        -1.0f, -1.0f,  1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+        -1.0f, -1.0f,  1.0f,
+         1.0f, -1.0f,  1.0f
+    };
+    std::vector<float> vertices = (std::vector<float>(x, x + sizeof x / sizeof x[0]));
+    return vertices;
+
+}
 
