@@ -26,14 +26,20 @@ void Application::init() {
   projection_matrix_loc = program->get_uniform_location("projection_matrix");
 
   // Get location of color uniform
-  color_loc = program->get_uniform_location("color");
-  time_loc = program->get_uniform_location("time");
+  //time_loc = program->get_uniform_location("time");
 
-  //cube.create_vao(position_loc, normal_loc);
-  //sphere.create_vao(position_loc, normal_loc);
-  //teapot.create_vao(position_loc, normal_loc);
+  light_position_loc = program->get_uniform_location("light_position");
+  eye_position_loc = program->get_uniform_location("eye_position");
+  light_ambient_color_loc = program->get_uniform_location("light_ambient_color");
+  light_diffuse_color_loc = program->get_uniform_location("light_diffuse_color");
+  light_specular_color_loc = program->get_uniform_location("light_specular_color");
 
+  material_ambient_color_loc = program->get_uniform_location("material_ambient_color");
+  material_diffuse_color_loc = program->get_uniform_location("material_diffuse_color");
+  material_specular_color_loc = program->get_uniform_location("material_specular_color");
+  material_shininess_loc = program->get_uniform_location("material_shininess");
 
+  teapot.create_vao(position_loc, normal_loc);
 
   meshes = Mesh::from_file("objects/projekt.obj");
   materials = Mesh::loadMaterials("objects/projekt.obj");
@@ -70,58 +76,52 @@ void Application::render() {
     // Bind(use) our program
     program->use();
 
-    // TASK 1: create and set projection matrix
-    //          use glm::perspective(field of view, aspect, near, far)
-    //          field of view - half angle of camera view in radians (about 45 degrees is fine)
-    //          aspect - ratio of screen size: width / height
-    //          near - distance from camera from where we should see the scene (for example 0.1f)
-    //          far - distance from camera where we should not see anything (for example 100.0f)
-    //          use glm::radians(degrees) to convert degrees to radians
-    // glm::mat4 projection_matrix = ...;
+
     glm::mat4 projection_matrix = glm::perspective(
                 glm::radians(45.0f),
                 aspect_ratio,
                 0.1f,
                 100.0f);
 
-
-
-    // TASK 1: Upload projection matrix to the shader
-    //         use glUniformMatrix4fv(projection_matrix_loc, 1, GL_FALSE, glm::value_ptr(matrix))
-    //         go to shader main.vert and finish the task there
-    // ...
     glUniformMatrix4fv(projection_matrix_loc, 1, GL_FALSE, glm::value_ptr(projection_matrix));
-
-
-
-
     glm::mat4 view_matrix = glm::lookAt(camera.get_eye_position(), camera.get_center_of_view(), glm::vec3(0.0f, 1.0f, 0.0f));
+    glUniform3fv(eye_position_loc, 1, glm::value_ptr(camera.get_eye_position()));
     glUniformMatrix4fv(view_matrix_loc, 1, GL_FALSE, glm::value_ptr(view_matrix));
 
-    // Draw cube
+    glUniform4f(light_position_loc, 2.0f, 25.0f, 2.0f, 0.0f);
+    glUniform3f(light_ambient_color_loc, 0.02f, 0.02f, 0.02f);
+    glUniform3f(light_diffuse_color_loc, 1.0f, 1.0f, 1.0f);
+    glUniform3f(light_specular_color_loc, 1.0f, 1.0f, 1.0f);
+
     //cube.bind_vao();
+    (*meshes[0]).bind_vao();
+
+    glm::mat4 model_matrix = glm::mat4(1.0f);
+    glUniformMatrix4fv(model_matrix_loc, 1, GL_FALSE, glm::value_ptr(model_matrix));
+
+    // The materials are set for every object
+    glUniform3f(material_ambient_color_loc, 0.329412f, 0.223529f, 0.027451f);
+    glUniform3f(material_diffuse_color_loc, 0.780392f, 0.568627f, 0.113725f);
+    glUniform3f(material_specular_color_loc, 0.992157f, 0.941176f, 0.807843f);
+    glUniform1f(material_shininess_loc, 27.8974f);
+
+
+      (*meshes[0]).draw();
+
+
     //super_cube.bind_vao();
 
     //glUniform3f(color_loc, 1.0f, 1.0f, 1.0f);
 
-    // TASK 3: rotate cube using glm::rotate(existing transformation matrix,
-    //                                       rotation in angles,
-    //                                       vector to rotate around)
-    //         you can simply use time as an angle
-    // glm::mat4 cube_model_matrix = glm::mat4(1.0);
-    // ...
-      glm::mat4 cube_model_matrix = glm::mat4(1.0);
-      glm::mat4 model_matrix = cube_model_matrix; //glm::rotate(cube_model_matrix, time, glm::vec3(0.0f, 1.0f, 0.0f));
-      glUniformMatrix4fv(model_matrix_loc, 1, GL_FALSE, glm::value_ptr(model_matrix));
+//5      glm::mat4 cube_model_matrix = glm::mat4(1.0);
+//5      glm::mat4 model_matrix = cube_model_matrix; //glm::rotate(cube_model_matrix, time, glm::vec3(0.0f, 1.0f, 0.0f));
+//5      glUniformMatrix4fv(model_matrix_loc, 1, GL_FALSE, glm::value_ptr(model_matrix));
 
       //cube.draw();
 
       // TASK 4: draw another object, for example teapot or sphere
-      glUniform3f(color_loc, 0.1f, 0.2f, 0.99f);
+      //glUniform3f(color_loc, 0.1f, 0.2f, 0.99f);
       //glUniform1f(time_loc, time-0.5f);
-      (*meshes[0]).draw();
-
-
       /*glUniform3f(color_loc, 0.1f, 0.2f, 0.99f);
       //glUniform1f(time_loc, time);
       (*meshes2[1]).draw();*/
@@ -129,16 +129,6 @@ void Application::render() {
       /*for(auto const& mesh: meshes2) {
           (*mesh).draw();
       }*/
-
-
-
-
-    //(super_cube).draw();
-
-    //glUniform3f(color_loc, 1.0f, 0.5f, 0.0f);
-    //super_whatever.draw();
-
-    //sphere.draw();
 
     }
 

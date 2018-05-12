@@ -40,8 +40,8 @@ private:
   Camera camera;
 
   // Locations of vertex attributes position and normal
-  GLint position_loc = -1;
-  GLint normal_loc = -1;
+  //GLint position_loc = -1;
+  //GLint normal_loc = -1;
 
   // Locations of uniforms for positioning and projecting object
   GLint model_matrix_loc = -1;
@@ -49,8 +49,27 @@ private:
   GLint projection_matrix_loc = -1;
 
   // Location of color uniform
-  GLint color_loc = -1;
-  GLint time_loc = -1;
+  //GLint color_loc = -1;
+  //GLint time_loc = -1;
+
+  // Light related
+  GLint light_position_loc = -1;
+  GLint eye_position_loc = -1;
+
+  // Light color
+  GLint light_diffuse_color_loc = -1;
+  GLint light_ambient_color_loc = -1;
+  GLint light_specular_color_loc = -1;
+
+  // Material color
+  GLint material_ambient_color_loc = -1;
+  GLint material_diffuse_color_loc = -1;
+  GLint material_specular_color_loc = -1;
+  GLint material_shininess_loc = -1;
+
+
+
+
 
   Mesh cube = Mesh::cube();
   Mesh sphere = Mesh::sphere();
