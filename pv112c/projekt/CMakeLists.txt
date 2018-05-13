@@ -22,11 +22,11 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/objects/projekt.obj" "${CMAKE_CURREN
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/objects/projekt.mtl" "${CMAKE_CURRENT_BINARY_DIR}/projekt.mtl" COPYONLY)
 
 
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/up.jpg" "${CMAKE_CURRENT_BINARY_DIR}/up.jpg" COPYONLY)
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/down.jpg" "${CMAKE_CURRENT_BINARY_DIR}/down.jpg" COPYONLY)
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/front.jpg" "${CMAKE_CURRENT_BINARY_DIR}/front.jpg" COPYONLY)
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/back.jpg" "${CMAKE_CURRENT_BINARY_DIR}/back.jpg" COPYONLY)
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/left.jpg" "${CMAKE_CURRENT_BINARY_DIR}/left.jpg" COPYONLY)
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/right.jpg" "${CMAKE_CURRENT_BINARY_DIR}/right.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/up.png" "${CMAKE_CURRENT_BINARY_DIR}/up.png" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/down.png" "${CMAKE_CURRENT_BINARY_DIR}/down.png" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/front.png" "${CMAKE_CURRENT_BINARY_DIR}/front.png" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/back.png" "${CMAKE_CURRENT_BINARY_DIR}/back.png" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/left.png" "${CMAKE_CURRENT_BINARY_DIR}/left.png" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/right.png" "${CMAKE_CURRENT_BINARY_DIR}/right.png" COPYONLY)
 
 

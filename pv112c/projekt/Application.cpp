@@ -139,12 +139,12 @@ void Application::createSkyBox()
 {
     std::string faces[6] =
     {
-        "right.jpg",
-        "left.jpg",
-        "up.jpg",
-        "down.jpg",
-        "front.jpg",
-        "back.jpg",
+        "right.png",
+        "left.png",
+        "up.png",
+        "down.png",
+        "front.png",
+        "back.png",
     };
 
     skyboxID = load_texture_cubemap(faces);
