@@ -215,20 +215,16 @@ void Application::on_key(int key, int scancode, int actions, int mods) {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         break;
     case GLFW_KEY_W:
-        camera.cam.x--;
-        camera.update_eye_pos();
+        camera.move_forward();
         break;
     case GLFW_KEY_S:
-        camera.cam.x++;
-        camera.update_eye_pos();
+        camera.move_back();
         break;
     case GLFW_KEY_A:
-        camera.cam.z++;
-        camera.update_eye_pos();
+        camera.turn_left();
         break;
     case GLFW_KEY_D:
-        camera.cam.z--;
-        camera.update_eye_pos();
+        camera.turn_right();
         break;
     }
 }

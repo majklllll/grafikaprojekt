@@ -16,16 +16,20 @@ Camera::Camera()
 }
 
 void Camera::update_eye_pos() {
-  /*eye_position.x = cam.x; //+ distance * cosf(angle_elevation) * -sinf(angle_direction);
-  eye_position.y = cam.y; //+ distance * sinf(angle_elevation);
-  eye_position.z = cam.z; //+ distance * cosf(angle_elevation) * cosf(angle_direction);
-  */
+  /*eye_position.x = (cov.x - distance); //* cosf(angle_elevation) * -sinf(angle_direction);
+  eye_position.y = 1.0f;//(cov.y ) * sinf(angle_elevation);
+  eye_position.z = (cov.z ); //* cosf(angle_elevation) * cosf(angle_direction);*/
+    eye_position.x = cov.x + distance * cosf(angle_elevation) * -sinf(angle_direction);
+    eye_position.y = cov.y + distance * sinf(angle_elevation);
+    eye_position.z = cov.z + distance * cosf(angle_elevation) * cosf(angle_direction);
 
-    eye_position.x = cam.x; //+ /*distance *  cosf(angle_elevation) * -sinf(angle_direction);
+
+    /*eye_position.x = cam.x; //+ /*distance *  cosf(angle_elevation) * -sinf(angle_direction);
     eye_position.y = cam.y; //+ /*distance *  sinf(angle_elevation);
     eye_position.z = cam.z; //+ /*distance *  cosf(angle_elevation) * cosf(angle_direction);
-
-  std::cout << eye_position.x << " - " << eye_position.y << " - " <<eye_position.z << std::endl;
+*/
+  std::cout << "eye:" << eye_position.x << " - " << eye_position.y << " - " <<eye_position.z << std::endl;
+  std::cout << "cov:" << cov.x << " - " << cov.y << " - " <<cov.z << std::endl;
 }
 
 void Camera::on_mouse_button(int button, int action, int mods) {
@@ -74,4 +78,28 @@ void Camera::on_mouse_move(double x, double y) {
 }
 
 glm::vec3 Camera::get_eye_position() const { return eye_position; }
-glm::vec3 Camera::get_center_of_view() const {return glm::vec3(cam.x - 10.0f, cam.y, cam.z); }
+glm::vec3 Camera::get_center_of_view() const {return glm::vec3(cov.x, cov.y, cov.z); }
+
+void Camera::move_forward()
+{
+    cov.x++;
+    update_eye_pos();
+}
+
+void Camera::move_back()
+{
+    cov.x--;
+    update_eye_pos();
+}
+
+void Camera::turn_right()
+{
+    cov.z++;
+    update_eye_pos();
+}
+
+void Camera::turn_left()
+{
+    cov.z--;
+    update_eye_pos();
+}

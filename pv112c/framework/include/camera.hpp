@@ -64,11 +64,20 @@ public:
 
   glm::vec3 get_center_of_view() const;
 
-  struct cameraman {
+  /*struct camera_position {
     float x = 10.0f;
     float y = 1.0f;
     float z = 10.0f;
-  } cam;
+  } cam;*/
+  struct center_of_view {
+    float x = 0.0f;
+    float y = 1.0f;
+    float z = 0.0f;
+  } cov;
 
+  void move_forward();
+  void move_back();
+  void turn_right();
+  void turn_left();
 
 };
