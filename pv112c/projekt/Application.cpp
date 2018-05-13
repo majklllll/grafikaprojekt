@@ -88,7 +88,7 @@ void Application::render() {
 
 
     // Bind(use) our program
-    /*program->use();
+    program->use();
 
 
     glm::mat4 projection_matrix = glm::perspective(
@@ -111,7 +111,7 @@ void Application::render() {
     for(size_t i=0; i < meshes.size(); i++) {
         drawMesh(*meshes[i], i);
         (*meshes[i]).draw();
-    }*/
+    }
 
 
 
@@ -170,7 +170,7 @@ void Application::render_sky_box()
                 glm::radians(45.0f),
                 aspect_ratio,
                 0.1f,
-                100.0f);
+                1000000.0f);
 
     glUniformMatrix4fv(projection_matrix_skybox_loc, 1, GL_FALSE, glm::value_ptr(projection_matrix));
     glm::mat4 view_matrix = glm::lookAt(camera.get_eye_position(), camera.get_center_of_view(), glm::vec3(0.0f, 1.0f, 0.0f));
