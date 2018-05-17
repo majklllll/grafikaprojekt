@@ -10,7 +10,7 @@ const float Camera::angle_sensitivity = 0.008f;
 const float Camera::zoom_sensitivity = 0.003f;
 
 Camera::Camera()
-    : angle_direction(0.0f), angle_elevation(0.0f), distance(10.0f), last_x(0), last_y(0), is_rotating(false),
+    : angle_direction(0.0f), angle_elevation(0.0f), distance(5.0f), last_x(0), last_y(0), is_rotating(false),
       is_zooming(false) {
   update_eye_pos();
 }
@@ -82,24 +82,24 @@ glm::vec3 Camera::get_center_of_view() const {return glm::vec3(cov.x, cov.y, cov
 
 void Camera::move_forward()
 {
-    cov.x++;
+    cov.x+=0.1f;
     update_eye_pos();
 }
 
 void Camera::move_back()
 {
-    cov.x--;
+    cov.x-=0.1f;
     update_eye_pos();
 }
 
 void Camera::turn_right()
 {
-    cov.z++;
+    cov.z+=0.1f;
     update_eye_pos();
 }
 
 void Camera::turn_left()
 {
-    cov.z--;
+    cov.z-=0.1f;
     update_eye_pos();
 }

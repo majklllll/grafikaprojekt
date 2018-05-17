@@ -18,8 +18,8 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/shaders/skybox.vert" "${CMAKE_CURREN
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/shaders/skybox.frag" "${CMAKE_CURRENT_BINARY_DIR}/shaders/skybox.frag" COPYONLY)
 
 
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/objects/projekt.obj" "${CMAKE_CURRENT_BINARY_DIR}/objects/projekt.obj" COPYONLY)
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/objects/projekt.mtl" "${CMAKE_CURRENT_BINARY_DIR}/projekt.mtl" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/objects/house.obj" "${CMAKE_CURRENT_BINARY_DIR}/objects/house.obj" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/objects/house.mtl" "${CMAKE_CURRENT_BINARY_DIR}/house.mtl" COPYONLY)
 
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/up.png" "${CMAKE_CURRENT_BINARY_DIR}/up.png" COPYONLY)

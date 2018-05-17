@@ -15,7 +15,7 @@ int main(void) {
     return -1;
   }
 
-  std::unique_ptr<Application> application = std::make_unique<Application>(1280, 760, "Seminar 02");
+  std::unique_ptr<Application> application = std::make_unique<Application>(1280, 760, "Projekt house");
 
   if (GLAD_GL_KHR_debug) {
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);

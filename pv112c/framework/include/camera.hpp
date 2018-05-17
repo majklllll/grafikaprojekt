@@ -71,7 +71,7 @@ public:
   } cam;*/
   struct center_of_view {
     float x = 0.0f;
-    float y = 1.0f;
+    float y = 0.1f;
     float z = 0.0f;
   } cov;
 

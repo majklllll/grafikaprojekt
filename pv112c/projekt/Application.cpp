@@ -35,8 +35,8 @@ void Application::initialize_locs()
 
 void Application::loadObjFiles()
 {
-    meshes = Mesh::from_file("objects/projekt.obj");
-    materials = Mesh::loadMaterials("objects/projekt.obj");
+    meshes = Mesh::from_file("objects/house.obj");
+    materials = Mesh::loadMaterials("objects/house.obj");
 }
 
 void Application::create_vaos(GLint normal_loc, GLint position_loc)
@@ -109,7 +109,7 @@ void Application::render() {
 
 
     for(size_t i=0; i < meshes.size(); i++) {
-        drawMesh(*meshes[i], i);
+        drawMesh(*meshes[i], 1);
         (*meshes[i]).draw();
     }
 
