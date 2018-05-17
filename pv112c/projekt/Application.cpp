@@ -108,11 +108,12 @@ void Application::render() {
     glUniform3f(light_specular_color_loc, 1.0f, 1.0f, 1.0f);
 
 
-    for(size_t i=0; i < meshes.size(); i++) {
-        drawMesh(*meshes[i], 1);
+    /*for(size_t i=0; i < meshes.size(); i++) {
+        drawMesh(*meshes[i], 0);
         (*meshes[i]).draw();
-    }
-
+    }*/
+    drawMesh(*meshes[3], 0);
+    (*meshes[3]).draw();
 
 
       //glUniform1f(time_loc, time);

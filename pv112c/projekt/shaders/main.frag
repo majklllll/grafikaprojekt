@@ -26,7 +26,7 @@ out vec4 final_color;
 
 void main()
 {
-  vec3 L = normalize(light_position.xyz - vertex_position_ws * light_position.w);
+  /*vec3 L = normalize(light_position.xyz - vertex_position_ws * light_position.w);
   vec3 N = normalize(vertex_normal_ws);
   vec3 E = normalize(eye_position - vertex_position_ws);
   vec3 H = normalize(E + L);
@@ -51,11 +51,11 @@ void main()
                diffuse_intensity * light_diffuse_color * material_diffuse_color +
                specular_intensity * light_specular_color * material_specular_color;
 
-  final_color = vec4(light, 1.0);
+  final_color = vec4(light, 1.0);*/
 
 
 
 
 
-    //final_color = vec4(vec3(0.0,1.0,0.0), 1.0);
+    final_color = vec4(vec3(0.0,1.0,0.0), 1.0);
 }

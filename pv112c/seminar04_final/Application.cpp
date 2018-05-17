@@ -130,7 +130,7 @@ void Application::render() {
     //          13.1 enable blending in the init function
     //          13.2 set blending equation for teapot to be GL_FUNC_ADD (docs.gl -> glBlendEquation)
     //          13.3 set blending factors to be GL_SRC_ALPHA and GL_ONE_MINUS_SRC_ALPHA (docs.gl -> glBlendFunc)
-    /*glBlendEquation(GL_FUNC_ADD);
+    glBlendEquation(GL_FUNC_ADD);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Model Matrix
@@ -142,7 +142,7 @@ void Application::render() {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, alpha_texture);
 
-    teapot.draw();*/
+    teapot.draw();
 }
 
 void Application::on_mouse_position(double x, double y) {
