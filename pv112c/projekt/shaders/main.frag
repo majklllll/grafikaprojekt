@@ -3,25 +3,26 @@
 //uniform vec3 color;
 //uniform float time;
 
-uniform samplerCube skybox;
+uniform sampler2D texture_primary;
 
 
 uniform vec3 eye_position;
+
 in vec3 vertex_position_ws;
 in vec3 vertex_normal_ws;
+in vec2 vertex_texture_coordinate;
 
 uniform vec4 light_position;
 uniform vec3 light_ambient_color;
 uniform vec3 light_diffuse_color;
 uniform vec3 light_specular_color;
+
 uniform vec3 material_ambient_color;
 uniform vec3 material_diffuse_color;
 uniform vec3 material_specular_color;
 uniform float material_shininess;
 
 in vec3 TexCoords;
-
-
 out vec4 final_color;
 
 void main()
@@ -57,5 +58,5 @@ void main()
 
 
 
-    final_color = vec4(vec3(0.0,1.0,0.0), 1.0);
+    final_color = texture(texture_primary, vertex_texture_coordinate).rgba;
 }

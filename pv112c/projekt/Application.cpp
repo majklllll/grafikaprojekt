@@ -69,27 +69,12 @@ void Application::init() {
   createSkyBox();
 }
 
-void Application::render() {
-
-    // Get the current time
-    float time = float(glfwGetTime());
-
+void Application::set_vertex_matrices()
+{
     // Get the aspect ratio of window size
     float width = float(window.get_width());
     float height = float(window.get_height());
     float aspect_ratio = width / height;
-
-    // Clear screen, both color and depth
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-    render_sky_box();
-
-
-
-    // Bind(use) our program
-    program->use();
-
 
     glm::mat4 projection_matrix = glm::perspective(
                 glm::radians(45.0f),
@@ -101,6 +86,22 @@ void Application::render() {
     glm::mat4 view_matrix = glm::lookAt(camera.get_eye_position(), camera.get_center_of_view(), glm::vec3(0.0f, 1.0f, 0.0f));
     glUniform3fv(eye_position_loc, 1, glm::value_ptr(camera.get_eye_position()));
     glUniformMatrix4fv(view_matrix_loc, 1, GL_FALSE, glm::value_ptr(view_matrix));
+}
+
+void Application::render() {
+
+    // Get the current time
+    float time = float(glfwGetTime());
+
+    // Clear screen, both color and depth
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    //render blue sky
+    render_sky_box();
+
+    // Bind normal shader program
+    program->use();
+    set_vertex_matrices();
 
     glUniform4f(light_position_loc, 2.0f, 25.0f, 2.0f, 0.0f);
     glUniform3f(light_ambient_color_loc, 0.02f, 0.02f, 0.02f);

@@ -48,6 +48,8 @@ public:
 
   void create_vaos(GLint normal_loc, GLint position_loc);
 
+  void set_vertex_matrices();
+
 private:
   // application variables
   std::unique_ptr<ShaderProgram> program;
