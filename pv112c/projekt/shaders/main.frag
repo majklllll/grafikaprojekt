@@ -26,7 +26,7 @@ out vec4 final_color;
 
 void main()
 {
-  /*vec3 L = normalize(light_position.xyz - vertex_position_ws * light_position.w);
+  vec3 L = normalize(light_position.xyz - vertex_position_ws * light_position.w);
   vec3 N = normalize(vertex_normal_ws);
   vec3 E = normalize(eye_position - vertex_position_ws);
   vec3 H = normalize(E + L);
@@ -43,23 +43,36 @@ void main()
       diffuse_intensity *= attenuation;
   }
 
-  // Specular light intensity
-  float specular_intensity = pow(max(dot(N, H), 0.0), material_shininess);
-
-  // Final light
-  vec3 light = light_ambient_color * material_ambient_color +
-               diffuse_intensity * light_diffuse_color * material_diffuse_color +
-               specular_intensity * light_specular_color * material_specular_color;
-
-  final_color = vec4(light, 1.0);*/
-
-
-
 
   if(use_texture) {
-    final_color = texture(texture_primary, vertex_texture_coordinate).rgba;
+    // Specular light intensity
+    float tex_alpha = texture(texture_primary, vertex_texture_coordinate).a;
+    vec3 tex_color = texture(texture_primary, vertex_texture_coordinate).rgb;
+    float specular_intensity = pow(max(dot(N, H), 0.0), material_shininess);
+
+    // Final light
+    vec3 light = light_ambient_color * tex_color +
+                 diffuse_intensity * tex_color * material_diffuse_color +
+                 specular_intensity * light_specular_color * material_specular_color;
+
+    final_color = vec4(light, tex_alpha);
+    //final_color = texture(texture_primary, vertex_texture_coordinate).rgba;
   } else {
-    final_color = vec4(1.0f,0.0f,0.0f,1.0f);
+      // Specular light intensity
+      float specular_intensity = pow(max(dot(N, H), 0.0f), material_shininess);
+
+      // Final light
+      vec3 light = light_ambient_color * material_ambient_color +
+                   diffuse_intensity * light_diffuse_color * material_diffuse_color +
+                   specular_intensity * light_specular_color * material_specular_color;
+
+      final_color = vec4(light, 1.0f);
   }
+
+
+
+
+
+
 
 }
