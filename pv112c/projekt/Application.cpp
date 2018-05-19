@@ -73,6 +73,7 @@ void Application::init() {
   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
   glClearDepth(1.0);
   glEnable(GL_DEPTH_TEST);
+  glCullFace(GL_FRONT);
 
   // Create shader program
   program = make_unique<ShaderProgram>("shaders/main.vert", "shaders/main.frag");
@@ -128,7 +129,7 @@ void Application::render() {
     program->use();
     set_vertex_matrices();
 
-    glUniform4f(light_position_loc, 250.0f, 250.0f, 250.0f, 0.0f);
+    glUniform4f(light_position_loc, 0.0f, 1.0f, 0.0f, 0.0f);
     glUniform3f(light_ambient_color_loc, 0.02f, 0.02f, 0.02f);
     glUniform3f(light_diffuse_color_loc, 1.0f, 1.0f, 1.0f);
     glUniform3f(light_specular_color_loc, 1.0f, 1.0f, 1.0f);
