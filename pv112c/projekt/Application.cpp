@@ -152,6 +152,9 @@ void Application::render() {
 
     drawMesh(*meshes[4], materials["cosi"]);
     (*meshes[4]).draw();
+
+    drawMesh(*meshes[5], materials["mona"]);
+    (*meshes[5]).draw();
       //glUniform1f(time_loc, time);
 }
 

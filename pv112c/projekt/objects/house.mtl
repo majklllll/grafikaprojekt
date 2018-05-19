@@ -3,8 +3,6 @@
 newmtl kdosi
 Ka 1 1 1
 Kd 0.70999997854233 0.70999997854233 0.70999997854233
-Ks 1 1 1
-Ns 50
 illum 7
 
 newmtl trava
@@ -16,7 +14,11 @@ illum 7
 newmtl cosi
 Ka 1 1 1
 Kd 0.80000001192093 0.01600000075996 0.10746666789055
-Ks 1 1 1
-Ns 50
+illum 7
+
+newmtl mona
+Ka 1 1 1
+Kd 0.80000001192093 0.80000001192093 0.80000001192093
+map_Kd mona-lisa.jpg
 illum 7
 
