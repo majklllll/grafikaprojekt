@@ -138,11 +138,11 @@ void Application::render() {
     glUniformMatrix4fv(model_matrix_loc, 1, GL_FALSE, glm::value_ptr(model_matrix));
 
     // Texture
-    glUniform1i(primary_texture_loc, 0);
+    /*glUniform1i(primary_texture_loc, 0);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, alpha_texture);
 
-    teapot.draw();
+    teapot.draw();*/
 }
 
 void Application::on_mouse_position(double x, double y) {

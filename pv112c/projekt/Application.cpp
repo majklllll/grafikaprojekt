@@ -21,6 +21,10 @@ void Application::initialize_locs()
     // Get location of color uniform
     //time_loc = program->get_uniform_location("time");
 
+
+    texture_loc = program->get_uniform_location("texture_primary");
+    use_texture_loc = program->get_uniform_location("use_texture");
+
     light_position_loc = program->get_uniform_location("light_position");
     eye_position_loc = program->get_uniform_location("eye_position");
     light_ambient_color_loc = program->get_uniform_location("light_ambient_color");
@@ -36,13 +40,32 @@ void Application::initialize_locs()
 void Application::loadObjFiles()
 {
     meshes = Mesh::from_file("objects/house.obj");
-    materials = Mesh::loadMaterials("objects/house.obj");
+    std::vector<tinyobj::material_t>  mats = Mesh::loadMaterials("objects/house.obj");
+
+    for(auto &mate :mats) {
+        material new_mat;
+        new_mat.mat = mate;
+        new_mat.texture_id = -1;
+
+        if(mate.diffuse_texname != "") {
+            new_mat.texture_id = load_texture_2d(mate.diffuse_texname);
+            glBindTexture(GL_TEXTURE_2D, new_mat.texture_id);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, glm::value_ptr(border_color));
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+
+        materials[mate.name] = new_mat;
+    }
 }
 
-void Application::create_vaos(GLint normal_loc, GLint position_loc)
+void Application::create_vaos(GLint normal_loc, GLint position_loc, GLint textur_coord_loc)
 {
     for(auto const& mesh: meshes) {
-        (*mesh).create_vao(position_loc, normal_loc);
+        (*mesh).create_vao(position_loc, normal_loc, textur_coord_loc);
     }
 }
 
@@ -58,14 +81,16 @@ void Application::init() {
   // Get locations of vertex attributes position and normal
   GLint position_loc = program->get_attribute_location("position");
   GLint normal_loc = program->get_attribute_location("normal");
+  GLint textur_coord_loc = program->get_attribute_location("texture_coordinate");
+
   GLint position_skybox_loc = skybox->get_attribute_location("position");
 
   initialize_locs();
   loadObjFiles();
 
-  cube.create_vao(position_skybox_loc, -1);//maybe error!!!!!!!!!!!!!!!!!!!!!!!!!
+  cube.create_vao(position_skybox_loc, -1);
 
-  create_vaos(normal_loc, position_loc);
+  create_vaos(normal_loc, position_loc, textur_coord_loc);
   createSkyBox();
 }
 
@@ -80,7 +105,7 @@ void Application::set_vertex_matrices()
                 glm::radians(45.0f),
                 aspect_ratio,
                 0.1f,
-                100.0f);
+                10000.0f);
 
     glUniformMatrix4fv(projection_matrix_loc, 1, GL_FALSE, glm::value_ptr(projection_matrix));
     glm::mat4 view_matrix = glm::lookAt(camera.get_eye_position(), camera.get_center_of_view(), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -113,28 +138,32 @@ void Application::render() {
         drawMesh(*meshes[i], 0);
         (*meshes[i]).draw();
     }*/
-    drawMesh(*meshes[3], 0);
+    drawMesh(*meshes[0], materials["kdosi"]);
+    (*meshes[0]).draw();
+
+    drawMesh(*meshes[1], materials["kdosi"]);
+    (*meshes[1]).draw();
+
+    drawMesh(*meshes[2], materials["kdosi"]);
+    (*meshes[2]).draw();
+
+    drawMesh(*meshes[3], materials["trava"]);
     (*meshes[3]).draw();
 
-
+    drawMesh(*meshes[4], materials["cosi"]);
+    (*meshes[4]).draw();
       //glUniform1f(time_loc, time);
 }
 
 
 
-void Application::drawMesh(Mesh mesh, size_t material_index = -1) {
+void Application::drawMesh(Mesh mesh, material& mater) {
     mesh.bind_vao();
     glm::mat4 model_matrix = glm::mat4(1.0f);
     glUniformMatrix4fv(model_matrix_loc, 1, GL_FALSE, glm::value_ptr(model_matrix));
 
-    // The materials are set for every object
-    /*glUniform3f(material_ambient_color_loc, 0.329412f, 0.223529f, 0.027451f);
-    glUniform3f(material_diffuse_color_loc, 0.780392f, 0.568627f, 0.113725f);
-    glUniform3f(material_specular_color_loc, 0.992157f, 0.941176f, 0.807843f);
-    glUniform1f(material_shininess_loc, 27.8974f);*/
 
-    if(material_index != -1)
-        set_material(material_index);
+    set_material(mater);
 }
 
 void Application::createSkyBox()
@@ -188,15 +217,27 @@ void Application::render_sky_box()
     glDepthMask(GL_TRUE);
 }
 
-void Application::set_material(int index)
+void Application::set_material(material &mater)
 {
+    cout << mater.mat.name  << mater.texture_id << "  " << UNDEFINED << endl;
+    auto &mat = mater.mat;
     int R=0,G=1,B=2;
-    if(index >= 0) {
-        glUniform3f(material_ambient_color_loc, materials[index].ambient[R], materials[index].ambient[G], materials[index].ambient[B]);
-        glUniform3f(material_diffuse_color_loc, materials[index].diffuse[R], materials[index].diffuse[G], materials[index].diffuse[B]);
-        glUniform3f(material_specular_color_loc, materials[index].specular[R], materials[index].specular[G], materials[index].specular[B]);
-        glUniform1f(material_shininess_loc, 27.8974f);
+
+    glUniform3f(material_ambient_color_loc, mat.ambient[R], mat.ambient[G], mat.ambient[B]);
+    glUniform3f(material_diffuse_color_loc, mat.diffuse[R], mat.diffuse[G], mat.diffuse[B]);
+    glUniform3f(material_specular_color_loc, mat.specular[R], mat.specular[G], mat.specular[B]);
+    glUniform1f(material_shininess_loc, 27.8974f);
+    if(mater.texture_id != UNDEFINED) {
+        glUniform1i(use_texture_loc, 1);
+        glUniform1i(texture_loc, 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, mater.texture_id);
+    } else {
+        glUniform1i(use_texture_loc, 0);
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
+
+
 }
 
 

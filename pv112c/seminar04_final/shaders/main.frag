@@ -17,6 +17,6 @@ void main() {
     // vec3 diffuse_color = texture_secondary_color == vec3(1.0) ? texture_primary_color : texture_secondary_color;
 
     // Task 12: comment code above and use only primary texture now INCLUDING ALPHA
-    final_color = texture(texture_secondary, vertex_texture_coordinate).rgba;
+    final_color = texture(texture_primary, vertex_texture_coordinate).rgba;
 
 }

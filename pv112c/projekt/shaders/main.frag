@@ -4,7 +4,7 @@
 //uniform float time;
 
 uniform sampler2D texture_primary;
-
+uniform bool use_texture;
 
 uniform vec3 eye_position;
 
@@ -22,7 +22,6 @@ uniform vec3 material_diffuse_color;
 uniform vec3 material_specular_color;
 uniform float material_shininess;
 
-in vec3 TexCoords;
 out vec4 final_color;
 
 void main()
@@ -57,6 +56,10 @@ void main()
 
 
 
-
+  if(use_texture) {
     final_color = texture(texture_primary, vertex_texture_coordinate).rgba;
+  } else {
+    final_color = vec4(1.0f,0.0f,0.0f,1.0f);
+  }
+
 }

@@ -28,8 +28,8 @@ void Camera::update_eye_pos() {
     eye_position.y = cam.y; //+ /*distance *  sinf(angle_elevation);
     eye_position.z = cam.z; //+ /*distance *  cosf(angle_elevation) * cosf(angle_direction);
 */
-  std::cout << "eye:" << eye_position.x << " - " << eye_position.y << " - " <<eye_position.z << std::endl;
-  std::cout << "cov:" << cov.x << " - " << cov.y << " - " <<cov.z << std::endl;
+//  std::cout << "eye:" << eye_position.x << " - " << eye_position.y << " - " <<eye_position.z << std::endl;
+//  std::cout << "cov:" << cov.x << " - " << cov.y << " - " <<cov.z << std::endl;
 }
 
 void Camera::on_mouse_button(int button, int action, int mods) {
