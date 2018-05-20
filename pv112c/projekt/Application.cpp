@@ -113,16 +113,24 @@ std::vector<Application::light> Application::get_lights()
 {
     std::vector<light> lights;
     light l0;
-
     l0.position = glm::vec3(0.0f, 1.0f, 0.0f);
     l0.ambient = glm::vec3( 0.02f, 0.02f, 0.02f);
     l0.diffuse = glm::vec3( 1.0f, 1.0f, 1.0f);
     l0.specular = glm::vec3( 1.0f, 1.0f, 1.0f);
-
     l0.square = 0.032f;
     l0.linear = 0.09f;
     l0.constant = 1.0f;
     lights.push_back(l0);
+
+    light l1;
+    l1.position = glm::vec3(10.0f, 1.0f, 1.0f);
+    l1.ambient = glm::vec3( 0.02f, 0.02f, 0.02f);
+    l1.diffuse = glm::vec3( 1.0f, 1.0f, 1.0f);
+    l1.specular = glm::vec3( 1.0f, 1.0f, 1.0f);
+    l1.square = 0.032f;
+    l1.linear = 0.09f;
+    l1.constant = 1.0f;
+    lights.push_back(l1);
 
     return lights;
 }
@@ -161,12 +169,6 @@ void Application::render() {
     // Bind normal shader program
     program->use();
     set_vertex_matrices();
-
-    /*glUniform4f(light_position_loc, 0.0f, 1.0f, 0.0f, 0.0f);
-    glUniform3f(light_ambient_color_loc, 0.02f, 0.02f, 0.02f);
-    glUniform3f(light_diffuse_color_loc, 1.0f, 1.0f, 1.0f);
-    glUniform3f(light_specular_color_loc, 1.0f, 1.0f, 1.0f);*/
-
 
 
 
