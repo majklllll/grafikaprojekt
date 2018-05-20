@@ -36,42 +36,52 @@ uniform float material_shininess;
 
 out vec4 final_color;
 
+vec3 get_point_light(Light light, vec3 position_ws, vec3 normal, vec3 view_direction);
+
 void main()
 {
+  vec3 normal = normalize(vertex_normal_ws);
+  vec3 view_direction = normalize(eye_position - vertex_position_ws);
+  vec3 result = vec3(0.0f,0.0f,0.0f);
+
+  for(int i = 0; i < light_count; i++)
+    result += get_point_light(lights[i], vertex_position_ws, normal, view_direction);
+
+  final_color = vec4(result, 1.0);
+}
+
+vec3 get_point_light(Light light, vec3 position_ws, vec3 normal, vec3 view_direction) {
   vec3 ambient;
   vec3 diffuse;
   vec3 specular;
 
   // diffuse
-  vec3 norm = normalize(vertex_normal_ws);
-  vec3 lightDir = normalize(lights[0].position - vertex_position_ws);
-  float diff = max(dot(norm, lightDir), 0.0);
+  vec3 light_direction = normalize(light.position - position_ws);
+  float diff = max(dot(normal, light_direction), 0.0);
 
   // specular
-  vec3 viewDir = normalize(eye_position - vertex_position_ws);
-  vec3 reflectDir = reflect(-lightDir, norm);
-  float spec = pow(max(dot(viewDir, reflectDir), 0.0), material_shininess);
+  vec3 reflectDir = reflect(-light_direction, normal);
+  float spec = pow(max(dot(view_direction, reflectDir), 0.0), material_shininess);
 
   if(use_texture) {
-    ambient = lights[0].ambient * texture(texture_primary, vertex_texture_coordinate).rgb;
-    diffuse = lights[0].diffuse * diff * texture(texture_primary, vertex_texture_coordinate).rgb;
-    specular = lights[0].specular * spec * texture(texture_primary, vertex_texture_coordinate).rgb;
+    ambient = light.ambient * texture(texture_primary, vertex_texture_coordinate).rgb;
+    diffuse = light.diffuse * diff * texture(texture_primary, vertex_texture_coordinate).rgb;
+    specular = light.specular * spec * texture(texture_primary, vertex_texture_coordinate).rgb;
   } else {
-    ambient = lights[0].ambient * material_ambient_color;
-    diffuse = lights[0].diffuse * diff * material_diffuse_color;
-    specular = lights[0].specular * spec * material_specular_color;
+    ambient = light.ambient * material_ambient_color;
+    diffuse = light.diffuse * diff * material_diffuse_color;
+    specular = light.specular * spec * material_specular_color;
   }
 
   // attenuation
-  float distance    = length(lights[0].position - vertex_position_ws);
-  float attenuation = 1.0 / (pow(distance, 2) * 0.032f + distance * 0.09f + 1.0f);
+  float distance    = length(light.position - position_ws);
+  float attenuation = 1.0 / (pow(distance, 2) * light.square + distance * light.linear + light.constant);
 
   ambient  *= attenuation;
   diffuse   *= attenuation;
   specular *= attenuation;
 
   vec3 result = ambient + diffuse + specular;
-  final_color = vec4(result, 1.0);
-
+  return result;
 
 }

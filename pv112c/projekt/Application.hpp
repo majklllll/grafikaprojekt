@@ -50,10 +50,7 @@ private:
   GLint eye_position_loc = -1;
 
   // Light color
-  GLint light_diffuse_color_loc = -1;
-  GLint light_ambient_color_loc = -1;
-  GLint light_specular_color_loc = -1;
-
+  GLint light_count_loc = -1;
   GLuint lights_loc = -1;
 
   // Textures
@@ -147,14 +144,17 @@ public:
 
 
 
-   void set_float(GLuint shader, const std::string &name, float value) const
-   {
-     glUniform1f(glGetUniformLocation(shader, name.c_str()), value);
-   }
-   void set_vec3(GLuint shader, const std::string &name, const glm::vec3 &value) const
-   {
-     glUniform3fv(glGetUniformLocation(shader, name.c_str()), 1, &value[0]);
-   }
-
+    void set_float(GLuint shader, const std::string &name, float value) const
+    {
+        glUniform1f(glGetUniformLocation(shader, name.c_str()), value);
+    }
+    void set_vec3(GLuint shader, const std::string &name, const glm::vec3 &value) const
+    {
+        glUniform3fv(glGetUniformLocation(shader, name.c_str()), 1, &value[0]);
+    }
+    void set_int(GLuint shader, const std::string &name, int value) const
+    {
+        glUniform1i(glGetUniformLocation(shader, name.c_str()), value);
+    }
 
 };

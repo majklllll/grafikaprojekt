@@ -20,13 +20,8 @@ void Application::initialize_locs()
     texture_loc = program->get_uniform_location("texture_primary");
     use_texture_loc = program->get_uniform_location("use_texture");
 
-    light_position_loc = program->get_uniform_location("light_position");
+    light_count_loc = program->get_uniform_location("light_count");
     eye_position_loc = program->get_uniform_location("eye_position");
-    light_ambient_color_loc = program->get_uniform_location("light_ambient_color");
-    light_diffuse_color_loc = program->get_uniform_location("light_diffuse_color");
-    light_specular_color_loc = program->get_uniform_location("light_specular_color");
-
-
 
     material_ambient_color_loc = program->get_uniform_location("material_ambient_color");
     material_diffuse_color_loc = program->get_uniform_location("material_diffuse_color");
@@ -148,6 +143,7 @@ void Application::set_lights()
         set_float(shader, lstr + "linear", lights[i].linear);
         set_float(shader, lstr + "constant", lights[i].constant);
     }
+    set_int(shader, "light_count", (int)lights.size());
 
 }
 
