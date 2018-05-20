@@ -15,7 +15,8 @@ out vec2 vertex_texture_coordinate;
 void main()
 {
   vertex_position_ws = vec3(model_matrix * vec4(position, 1.0));
-  vertex_normal_ws = normalize(inverse(transpose(mat3(model_matrix))) * normal);
+  //vertex_normal_ws = normalize(inverse(transpose(mat3(model_matrix))) * normal);
+  vertex_normal_ws = mat3(transpose(inverse(model_matrix))) * normal;
   vertex_texture_coordinate = texture_coordinate;
 
   gl_Position = projection_matrix * view_matrix * model_matrix * vec4(position, 1.0);

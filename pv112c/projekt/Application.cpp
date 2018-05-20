@@ -65,7 +65,11 @@ void Application::init() {
   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
   glClearDepth(1.0);
   glEnable(GL_DEPTH_TEST);
+  glEnable(GL_SCISSOR_TEST);
+  glEnable(GL_BLEND);
+  glEnable(GL_DITHER);
   glCullFace(GL_FRONT);
+
 
   // Create shader program
   program = make_unique<ShaderProgram>("shaders/main.vert", "shaders/main.frag");
@@ -113,22 +117,22 @@ std::vector<Application::light> Application::get_lights()
 {
     std::vector<light> lights;
     light l0;
-    l0.position = glm::vec3(0.0f, 1.0f, 0.0f);
-    l0.ambient = glm::vec3( 0.02f, 0.02f, 0.02f);
-    l0.diffuse = glm::vec3( 1.0f, 1.0f, 1.0f);
+    l0.position = glm::vec3(-5.3f, 1.0f, -2.5f);
+    l0.ambient = glm::vec3( 0.05f, 0.05f, 0.05f);
+    l0.diffuse = glm::vec3( 0.8f, 0.8f, 0.8f);
     l0.specular = glm::vec3( 1.0f, 1.0f, 1.0f);
-    l0.square = 0.032f;
+    l0.square = 0.0032f;
     l0.linear = 0.09f;
     l0.constant = 1.0f;
     lights.push_back(l0);
 
     light l1;
-    l1.position = glm::vec3(10.0f, 1.0f, 1.0f);
+    l1.position = glm::vec3(0.0f, 1.5f, 0.0f);
     l1.ambient = glm::vec3( 0.02f, 0.02f, 0.02f);
     l1.diffuse = glm::vec3( 1.0f, 1.0f, 1.0f);
     l1.specular = glm::vec3( 1.0f, 1.0f, 1.0f);
-    l1.square = 0.032f;
-    l1.linear = 0.09f;
+    l1.square = 0.000075f;
+    l1.linear = 0.0045f;
     l1.constant = 1.0f;
     lights.push_back(l1);
 
@@ -142,6 +146,7 @@ void Application::set_lights()
     vector<light> lights = get_lights();
     for(size_t i = 0; i < lights.size(); i++) {
         string lstr = string("lights[") + to_string(i) + "].";
+        cout << lstr << endl;
         set_vec3(shader, lstr + "position", lights[i].position);
         set_vec3(shader, lstr + "ambient", lights[i].ambient);
         set_vec3(shader, lstr + "diffuse", lights[i].diffuse);
@@ -152,7 +157,7 @@ void Application::set_lights()
         set_float(shader, lstr + "constant", lights[i].constant);
     }
     set_int(shader, "light_count", (int)lights.size());
-
+    cout << (int)lights.size() << endl;
 }
 
 void Application::render() {
@@ -268,15 +273,15 @@ void Application::set_material(material &mater)
     glUniform3f(material_diffuse_color_loc, mat.diffuse[R], mat.diffuse[G], mat.diffuse[B]);
     glUniform3f(material_specular_color_loc, mat.specular[R], mat.specular[G], mat.specular[B]);
     glUniform1f(material_shininess_loc, 1.0f);
-    if(mater.texture_id != UNDEFINED) {
+    /*if(mater.texture_id != UNDEFINED) {
         glUniform1i(use_texture_loc, 1);
         glUniform1i(texture_loc, 0);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, mater.texture_id);
-    } else {
+    } else {*/
         glUniform1i(use_texture_loc, 0);
         glBindTexture(GL_TEXTURE_2D, 0);
-    }
+    //}
 
 
 }

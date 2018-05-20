@@ -14,7 +14,7 @@
     float square;
 };
 
-uniform Light lights[1];
+uniform Light lights[2];
 uniform int light_count;
 
 
@@ -64,9 +64,9 @@ vec3 get_point_light(Light light, vec3 position_ws, vec3 normal, vec3 view_direc
   float spec = pow(max(dot(view_direction, reflectDir), 0.0), material_shininess);
 
   if(use_texture) {
-    ambient = light.ambient * texture(texture_primary, vertex_texture_coordinate).rgb;
-    diffuse = light.diffuse * diff * texture(texture_primary, vertex_texture_coordinate).rgb;
-    specular = light.specular * spec * texture(texture_primary, vertex_texture_coordinate).rgb;
+    ambient = light.ambient * vec3(texture(texture_primary, vertex_texture_coordinate));
+    diffuse = light.diffuse * diff * vec3(texture(texture_primary, vertex_texture_coordinate));
+    specular = light.specular * spec * vec3(texture(texture_primary, vertex_texture_coordinate));
   } else {
     ambient = light.ambient * material_ambient_color;
     diffuse = light.diffuse * diff * material_diffuse_color;
@@ -75,7 +75,7 @@ vec3 get_point_light(Light light, vec3 position_ws, vec3 normal, vec3 view_direc
 
   // attenuation
   float distance    = length(light.position - position_ws);
-  float attenuation = 1.0 / (pow(distance, 2) * light.square + distance * light.linear + light.constant);
+  float attenuation = 1.0 / (distance*distance * light.square + distance * light.linear + light.constant);
 
   ambient  *= attenuation;
   diffuse   *= attenuation;

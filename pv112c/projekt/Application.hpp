@@ -155,6 +155,7 @@ public:
     void set_int(GLuint shader, const std::string &name, int value) const
     {
         glUniform1i(glGetUniformLocation(shader, name.c_str()), value);
+        std::cout << name << value << ": " << glGetUniformLocation(shader, name.c_str()) << std::endl;
     }
 
 };
