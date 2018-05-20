@@ -87,7 +87,7 @@ void Application::init() {
 
   loadObjFiles();
 
-  setLights();
+  set_lights();
 
   cube.create_vao(position_skybox_loc, -1);
 
@@ -114,23 +114,40 @@ void Application::set_vertex_matrices()
     glUniformMatrix4fv(view_matrix_loc, 1, GL_FALSE, glm::value_ptr(view_matrix));
 }
 
-void Application::setLights()
+std::vector<Application::light> Application::get_lights()
+{
+    std::vector<light> lights;
+    light l0;
+
+    l0.position = glm::vec3(0.0f, 1.0f, 0.0f);
+    l0.ambient = glm::vec3( 0.02f, 0.02f, 0.02f);
+    l0.diffuse = glm::vec3( 1.0f, 1.0f, 1.0f);
+    l0.specular = glm::vec3( 1.0f, 1.0f, 1.0f);
+
+    l0.square = 0.032f;
+    l0.linear = 0.09f;
+    l0.constant = 1.0f;
+    lights.push_back(l0);
+
+    return lights;
+}
+
+void Application::set_lights()
 {
     program->use();
     GLuint shader = program->program_id;
+    vector<light> lights = get_lights();
+    for(size_t i = 0; i < lights.size(); i++) {
+        string lstr = string("lights[") + to_string(i) + "].";
+        set_vec3(shader, lstr + "position", lights[i].position);
+        set_vec3(shader, lstr + "ambient", lights[i].ambient);
+        set_vec3(shader, lstr + "diffuse", lights[i].diffuse);
+        set_vec3(shader, lstr + "specular", lights[i].specular);
 
-    lights_loc = program->get_uniform_location("lights");
-
-    light l;
-    l.position = glm::vec3(0.0f, 1.0f, 0.0f);
-    //l.ambient = glm::vec3( 0.02f, 0.02f, 0.02f);
-    l.diffuse = glm::vec3( 1.0f, 1.0f, 1.0f);
-    l.specular = glm::vec3( 1.0f, 1.0f, 1.0f);
-
-    l.ambient = glm::vec3(1.0f,0.2f,0.4f);
-
-
-    set_vec3(shader, "lights[0].ambient", l.ambient);
+        set_float(shader, lstr + "square", lights[i].square);
+        set_float(shader, lstr + "linear", lights[i].linear);
+        set_float(shader, lstr + "constant", lights[i].constant);
+    }
 
 }
 

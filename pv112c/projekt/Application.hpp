@@ -86,7 +86,9 @@ private:
 
   void set_vertex_matrices();
 
-  void setLights();
+  std::vector<light> get_lights();
+
+  void set_lights();
 
   static void on_key(GLFWwindow *window, int key, int scancode, int actions, int mods) {
       Application *this_pointer = static_cast<Application *>(glfwGetWindowUserPointer(window));
@@ -152,8 +154,6 @@ public:
    void set_vec3(GLuint shader, const std::string &name, const glm::vec3 &value) const
    {
      glUniform3fv(glGetUniformLocation(shader, name.c_str()), 1, &value[0]);
-
-     std::cout << "ssetted" << std::endl;
    }
 
 
