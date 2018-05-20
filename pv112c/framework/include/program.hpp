@@ -21,9 +21,9 @@ public:
   void use();
 
   ~ShaderProgram();
-
-private:
   GLuint program_id = 0;
+private:
+
   std::unique_ptr<VertexShader> vertex_shader;
   std::unique_ptr<FragmentShader> fragment_shader;
 };

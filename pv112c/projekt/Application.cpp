@@ -4,7 +4,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <cmath>
 
-#include <iostream>
 
 using namespace std;
 
@@ -18,10 +17,6 @@ void Application::initialize_locs()
     view_matrix_skybox_loc = skybox->get_uniform_location("view_matrix");
     projection_matrix_skybox_loc = skybox->get_uniform_location("projection_matrix");
 
-    // Get location of color uniform
-    //time_loc = program->get_uniform_location("time");
-
-
     texture_loc = program->get_uniform_location("texture_primary");
     use_texture_loc = program->get_uniform_location("use_texture");
 
@@ -30,6 +25,8 @@ void Application::initialize_locs()
     light_ambient_color_loc = program->get_uniform_location("light_ambient_color");
     light_diffuse_color_loc = program->get_uniform_location("light_diffuse_color");
     light_specular_color_loc = program->get_uniform_location("light_specular_color");
+
+
 
     material_ambient_color_loc = program->get_uniform_location("material_ambient_color");
     material_diffuse_color_loc = program->get_uniform_location("material_diffuse_color");
@@ -87,7 +84,10 @@ void Application::init() {
   GLint position_skybox_loc = skybox->get_attribute_location("position");
 
   initialize_locs();
+
   loadObjFiles();
+
+  setLights();
 
   cube.create_vao(position_skybox_loc, -1);
 
@@ -114,6 +114,26 @@ void Application::set_vertex_matrices()
     glUniformMatrix4fv(view_matrix_loc, 1, GL_FALSE, glm::value_ptr(view_matrix));
 }
 
+void Application::setLights()
+{
+    program->use();
+    GLuint shader = program->program_id;
+
+    lights_loc = program->get_uniform_location("lights");
+
+    light l;
+    l.position = glm::vec3(0.0f, 1.0f, 0.0f);
+    //l.ambient = glm::vec3( 0.02f, 0.02f, 0.02f);
+    l.diffuse = glm::vec3( 1.0f, 1.0f, 1.0f);
+    l.specular = glm::vec3( 1.0f, 1.0f, 1.0f);
+
+    l.ambient = glm::vec3(1.0f,0.2f,0.4f);
+
+
+    set_vec3(shader, "lights[0].ambient", l.ambient);
+
+}
+
 void Application::render() {
 
     // Get the current time
@@ -129,10 +149,12 @@ void Application::render() {
     program->use();
     set_vertex_matrices();
 
-    glUniform4f(light_position_loc, 0.0f, 1.0f, 0.0f, 0.0f);
+    /*glUniform4f(light_position_loc, 0.0f, 1.0f, 0.0f, 0.0f);
     glUniform3f(light_ambient_color_loc, 0.02f, 0.02f, 0.02f);
     glUniform3f(light_diffuse_color_loc, 1.0f, 1.0f, 1.0f);
-    glUniform3f(light_specular_color_loc, 1.0f, 1.0f, 1.0f);
+    glUniform3f(light_specular_color_loc, 1.0f, 1.0f, 1.0f);*/
+
+
 
 
     /*for(size_t i=0; i < meshes.size(); i++) {
@@ -223,7 +245,7 @@ void Application::render_sky_box()
 
 void Application::set_material(material &mater)
 {
-    cout << mater.mat.name  << mater.texture_id << "  " << UNDEFINED << endl;
+    //cout << mater.mat.name  << mater.texture_id << "  " << UNDEFINED << endl;
     auto &mat = mater.mat;
     int R=0,G=1,B=2;
 

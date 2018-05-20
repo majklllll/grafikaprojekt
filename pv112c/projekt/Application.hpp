@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 
 #include <string>
+#include <iostream>
 
 #include "mesh.hpp"
 #include "program.hpp"
@@ -27,7 +28,17 @@ private:
   {
       tinyobj::material_t mat;
       GLuint texture_id = UNDEFINED;
-  } ;
+  };
+  struct light{
+      glm::vec3 position;
+      glm::vec3 ambient;
+      glm::vec3 diffuse;
+      glm::vec3 specular;
+
+      float constant;
+      float linear;
+      float square;
+  };
 
   // Locations of uniforms for positioning and projecting object
   GLint model_matrix_loc = -1;
@@ -42,6 +53,8 @@ private:
   GLint light_diffuse_color_loc = -1;
   GLint light_ambient_color_loc = -1;
   GLint light_specular_color_loc = -1;
+
+  GLuint lights_loc = -1;
 
   // Textures
   GLint texture_loc = -1;
@@ -72,6 +85,8 @@ private:
   void create_vaos(GLint normal_loc, GLint position_loc, GLint textur_coord_loc);
 
   void set_vertex_matrices();
+
+  void setLights();
 
   static void on_key(GLFWwindow *window, int key, int scancode, int actions, int mods) {
       Application *this_pointer = static_cast<Application *>(glfwGetWindowUserPointer(window));
@@ -130,10 +145,16 @@ public:
 
 
 
+   void set_float(GLuint shader, const std::string &name, float value) const
+   {
+     glUniform1f(glGetUniformLocation(shader, name.c_str()), value);
+   }
+   void set_vec3(GLuint shader, const std::string &name, const glm::vec3 &value) const
+   {
+     glUniform3fv(glGetUniformLocation(shader, name.c_str()), 1, &value[0]);
 
-
-
-
+     std::cout << "ssetted" << std::endl;
+   }
 
 
 };
