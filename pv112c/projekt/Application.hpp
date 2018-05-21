@@ -28,6 +28,9 @@ private:
   {
       tinyobj::material_t mat;
       GLuint texture_id = UNDEFINED;
+      GLuint texture_bump_id = UNDEFINED;
+      float refr_index = 1.0f;
+      float dissolve = 1.0f;
   };
   struct light{
       glm::vec3 position;

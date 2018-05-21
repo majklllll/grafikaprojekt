@@ -190,14 +190,16 @@ void Application::render() {
     drawMesh(*meshes[2], materials["kdosi"]);
     (*meshes[2]).draw();
 
-    drawMesh(*meshes[3], materials["trava"]);
+    drawMesh(*meshes[3], materials["kdosi"]);
     (*meshes[3]).draw();
 
-    drawMesh(*meshes[4], materials["cosi"]);
+    drawMesh(*meshes[4], materials["kdosi"]);
     (*meshes[4]).draw();
 
-    drawMesh(*meshes[5], materials["mona"]);
+    drawMesh(*meshes[5], materials["kdosi"]);
     (*meshes[5]).draw();
+
+
       //glUniform1f(time_loc, time);
 }
 

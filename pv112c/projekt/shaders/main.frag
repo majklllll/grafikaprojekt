@@ -47,7 +47,7 @@ void main()
   for(int i = 0; i < light_count; i++)
     result += get_point_light(lights[i], vertex_position_ws, normal, view_direction);
 
-  final_color = vec4(result, 1.0);
+  final_color = vec4(result, 0.5);
 }
 
 vec3 get_point_light(Light light, vec3 position_ws, vec3 normal, vec3 view_direction) {
@@ -77,8 +77,8 @@ vec3 get_point_light(Light light, vec3 position_ws, vec3 normal, vec3 view_direc
   float distance    = length(light.position - position_ws);
   float attenuation = 1.0 / (distance*distance * light.square + distance * light.linear + light.constant);
 
-  ambient  *= attenuation;
-  diffuse   *= attenuation;
+  ambient *= attenuation;
+  diffuse *= attenuation;
   specular *= attenuation;
 
   vec3 result = ambient + diffuse + specular;
