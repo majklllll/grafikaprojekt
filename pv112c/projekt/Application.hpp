@@ -61,6 +61,10 @@ private:
   glm::vec4 border_color = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
   GLint use_texture_loc = -1;
 
+  // Bump map
+  GLint bump_loc = -1;
+  GLint use_bump_loc = -1;
+
   // Material color
   GLint material_ambient_color_loc = -1;
   GLint material_diffuse_color_loc = -1;

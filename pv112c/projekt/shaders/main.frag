@@ -19,9 +19,10 @@ uniform int light_count;
 
 
 
-
 uniform sampler2D texture_primary;
+uniform sampler2D texture_bump;
 uniform bool use_texture;
+uniform bool use_bump;
 
 uniform vec3 eye_position;
 

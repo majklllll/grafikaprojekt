@@ -31,3 +31,6 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/right.png" "${CMAKE_CURRENT_B
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/grass_01_by_linolafett-d76wfef.jpg" "${CMAKE_CURRENT_BINARY_DIR}/grass_01_by_linolafett-d76wfef.jpg" COPYONLY)
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/mona-lisa.jpg" "${CMAKE_CURRENT_BINARY_DIR}/mona-lisa.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/bumpmap.jpg" "${CMAKE_CURRENT_BINARY_DIR}/bumpmap.jpg" COPYONLY)
+
+

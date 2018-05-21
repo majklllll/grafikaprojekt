@@ -20,6 +20,9 @@ void Application::initialize_locs()
     texture_loc = program->get_uniform_location("texture_primary");
     use_texture_loc = program->get_uniform_location("use_texture");
 
+    bump_loc = program->get_uniform_location("texture_bump");
+    use_bump_loc = program->get_uniform_location("use_bump");
+
     light_count_loc = program->get_uniform_location("light_count");
     eye_position_loc = program->get_uniform_location("eye_position");
 
@@ -33,12 +36,13 @@ void Application::initialize_locs()
 void Application::loadObjFiles()
 {
     meshes = Mesh::from_file("objects/house.obj");
-    std::vector<tinyobj::material_t>  mats = Mesh::loadMaterials("objects/house.obj");
+    std::vector<tinyobj::material_t> mats = Mesh::loadMaterials("objects/house.obj");
 
     for(auto &mate :mats) {
         material new_mat;
         new_mat.mat = mate;
         new_mat.texture_id = -1;
+        new_mat.texture_bump_id = -1;
 
         if(mate.diffuse_texname != "") {
             new_mat.texture_id = load_texture_2d(mate.diffuse_texname);
@@ -49,6 +53,17 @@ void Application::loadObjFiles()
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glGenerateMipmap(GL_TEXTURE_2D);
+        }
+        if(mate.bump_texname != "") {
+            new_mat.texture_bump_id = load_texture_2d(mate.bump_texname);
+            glBindTexture(GL_TEXTURE_2D, new_mat.texture_bump_id);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, glm::value_ptr(border_color));
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glGenerateMipmap(GL_TEXTURE_2D);
+            cout << mate.bump_texname << endl;
         }
         new_mat.transparency = mate.dissolve;
         new_mat.refr_index = mate.ior;
@@ -74,6 +89,8 @@ void Application::init() {
 
   //glEnable(GL_DITHER);
   glCullFace(GL_FRONT);
+
+
 
 
   // Create shader program
@@ -181,11 +198,6 @@ void Application::render() {
     set_vertex_matrices();
 
 
-
-    /*for(size_t i=0; i < meshes.size(); i++) {
-        drawMesh(*meshes[i], 0);
-        (*meshes[i]).draw();
-    }*/
     drawMesh(*meshes[0], materials["kdosi"]);
     (*meshes[0]).draw();
 
@@ -195,14 +207,14 @@ void Application::render() {
     drawMesh(*meshes[2], materials["kdosi"]);
     (*meshes[2]).draw();
 
-    drawMesh(*meshes[3], materials["kdosi"]);
+    drawMesh(*meshes[3], materials["bumpy"]);
     (*meshes[3]).draw();
 
-    drawMesh(*meshes[4], materials["kdosi"]);
+    drawMesh(*meshes[4], materials["sklo"]);
     (*meshes[4]).draw();
 
-    drawMesh(*meshes[5], materials["sklo"]);
-    (*meshes[5]).draw();
+    /*drawMesh(*meshes[5], materials["sklo"]);
+    (*meshes[5]).draw();*/
 
 
       //glUniform1f(time_loc, time);
@@ -283,16 +295,22 @@ void Application::set_material(material &mater)
     glUniform1f(material_shininess_loc, 1.0f);
     glUniform1f(material_alpha_loc, mater.transparency);
 
-    /*if(mater.texture_id != UNDEFINED) {
+    if(mater.texture_id != UNDEFINED) {
         glUniform1i(use_texture_loc, 1);
         glUniform1i(texture_loc, 0);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, mater.texture_id);
-    } else {*/
+    } else {
         glUniform1i(use_texture_loc, 0);
         glBindTexture(GL_TEXTURE_2D, 0);
-    //}
+    }
 
+    if(mater.texture_bump_id != UNDEFINED) {
+        glUniform1i(use_bump_loc, 1);
+        glUniform1i(bump_loc, 1);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, mater.texture_bump_id);
+    }
 
 
 }
