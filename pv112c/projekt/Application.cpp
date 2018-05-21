@@ -305,6 +305,7 @@ void Application::set_material(material &mater)
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
+    glUniform1i(use_bump_loc, 0);
     if(mater.texture_bump_id != UNDEFINED) {
         glUniform1i(use_bump_loc, 1);
         glUniform1i(bump_loc, 1);

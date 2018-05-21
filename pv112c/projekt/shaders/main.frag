@@ -42,7 +42,15 @@ vec3 get_point_light(Light light, vec3 position_ws, vec3 normal, vec3 view_direc
 
 void main()
 {
+  // Calculate normal
   vec3 normal = normalize(vertex_normal_ws);
+
+  if(use_bump) {
+      normal = texture(texture_bump, vertex_texture_coordinate).rgb;
+      normal = normalize(normal * 2.0 - 1.0);
+  }
+
+  // Calculate light model
   vec3 view_direction = normalize(eye_position - vertex_position_ws);
   vec3 result = vec3(0.0f,0.0f,0.0f);
 
