@@ -14,7 +14,7 @@
     float square;
 };
 
-uniform Light lights[2];
+uniform Light lights[20];
 uniform int light_count;
 
 

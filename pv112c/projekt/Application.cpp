@@ -137,26 +137,26 @@ void Application::set_vertex_matrices()
 
 std::vector<Application::light> Application::get_lights()
 {
-    std::vector<light> lights;
-    light l0;
-    l0.position = glm::vec3(-5.3f, 1.0f, -2.5f);
-    l0.ambient = glm::vec3( 0.05f, 0.05f, 0.05f);
-    l0.diffuse = glm::vec3( 0.8f, 0.8f, 0.8f);
-    l0.specular = glm::vec3( 1.0f, 1.0f, 1.0f);
-    l0.square = 0.0032f;
-    l0.linear = 0.09f;
-    l0.constant = 1.0f;
-    lights.push_back(l0);
 
-    light l1;
-    l1.position = glm::vec3(0.0f, 1.5f, 0.0f);
-    l1.ambient = glm::vec3( 0.02f, 0.02f, 0.02f);
-    l1.diffuse = glm::vec3( 1.0f, 1.0f, 1.0f);
-    l1.specular = glm::vec3( 1.0f, 1.0f, 1.0f);
-    l1.square = 0.000075f;
-    l1.linear = 0.0045f;
-    l1.constant = 1.0f;
-    lights.push_back(l1);
+    std::vector<light> lights;
+
+    // Lights on ceiling
+    for(int i=0; i<4; i++) {
+        float z = 7.0f - 4.0f * i;
+        for(int j=0;j<2;j++) {
+            float x = -2.0f - 6.0f * j;
+            light l0;
+            l0.position = glm::vec3(x, 3.5f, z);
+            l0.ambient = glm::vec3( 0.05f, 0.05f, 0.05f);
+            l0.diffuse = glm::vec3( 0.8f, 0.8f, 0.9f);
+            l0.specular = glm::vec3( 1.0f, 1.0f, 1.0f);
+            l0.square = 0.032f;
+            l0.linear = 0.09f;
+            l0.constant = 1.0f;
+            lights.push_back(l0);
+        }
+    }
+
 
     return lights;
 }
@@ -179,7 +179,7 @@ void Application::set_lights()
         set_float(shader, lstr + "constant", lights[i].constant);
     }
     set_int(shader, "light_count", (int)lights.size());
-    cout << (int)lights.size() << endl;
+    cout << "Svetel:" << to_string(lights.size()) << endl;
 }
 
 void Application::render() {
@@ -197,25 +197,30 @@ void Application::render() {
     program->use();
     set_vertex_matrices();
 
-
+    // House
     drawMesh(*meshes[0], materials["kdosi"]);
     (*meshes[0]).draw();
-
     drawMesh(*meshes[1], materials["kdosi"]);
     (*meshes[1]).draw();
 
-    drawMesh(*meshes[2], materials["kdosi"]);
+    //Mona lisa
+    drawMesh(*meshes[2], materials["mona"]);
     (*meshes[2]).draw();
 
-    drawMesh(*meshes[3], materials["bumpy"]);
-    (*meshes[3]).draw();
+    // Point LED lights on ceiling
+    for(int i=0;i<16;i+=2) {
+        drawMesh(*meshes[3+i], materials["sklo"]);
+        (*meshes[3+i]).draw();
+        drawMesh(*meshes[4+i], materials["white_plastic"]);
+        (*meshes[4+i]).draw();
+    }
 
-    drawMesh(*meshes[4], materials["sklo"]);
-    (*meshes[4]).draw();
 
-    /*drawMesh(*meshes[5], materials["sklo"]);
-    (*meshes[5]).draw();*/
+    drawMesh(*meshes[19], materials["sklo"]);
+    (*meshes[19]).draw();
 
+    drawMesh(*meshes[20], materials["ram_okna"]);
+    (*meshes[20]).draw();
 
       //glUniform1f(time_loc, time);
 }
