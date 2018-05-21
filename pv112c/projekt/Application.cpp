@@ -27,6 +27,7 @@ void Application::initialize_locs()
     material_diffuse_color_loc = program->get_uniform_location("material_diffuse_color");
     material_specular_color_loc = program->get_uniform_location("material_specular_color");
     material_shininess_loc = program->get_uniform_location("material_shininess");
+    material_alpha_loc = program->get_uniform_location("material_alpha");
 }
 
 void Application::loadObjFiles()
@@ -49,6 +50,8 @@ void Application::loadObjFiles()
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glGenerateMipmap(GL_TEXTURE_2D);
         }
+        new_mat.transparency = mate.dissolve;
+        new_mat.refr_index = mate.ior;
 
         materials[mate.name] = new_mat;
     }
@@ -67,7 +70,9 @@ void Application::init() {
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_SCISSOR_TEST);
   glEnable(GL_BLEND);
-  glEnable(GL_DITHER);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  //glEnable(GL_DITHER);
   glCullFace(GL_FRONT);
 
 
@@ -196,7 +201,7 @@ void Application::render() {
     drawMesh(*meshes[4], materials["kdosi"]);
     (*meshes[4]).draw();
 
-    drawMesh(*meshes[5], materials["kdosi"]);
+    drawMesh(*meshes[5], materials["sklo"]);
     (*meshes[5]).draw();
 
 
@@ -271,10 +276,13 @@ void Application::set_material(material &mater)
     auto &mat = mater.mat;
     int R=0,G=1,B=2;
 
+
     glUniform3f(material_ambient_color_loc, mat.ambient[R], mat.ambient[G], mat.ambient[B]);
     glUniform3f(material_diffuse_color_loc, mat.diffuse[R], mat.diffuse[G], mat.diffuse[B]);
     glUniform3f(material_specular_color_loc, mat.specular[R], mat.specular[G], mat.specular[B]);
     glUniform1f(material_shininess_loc, 1.0f);
+    glUniform1f(material_alpha_loc, mater.transparency);
+
     /*if(mater.texture_id != UNDEFINED) {
         glUniform1i(use_texture_loc, 1);
         glUniform1i(texture_loc, 0);
@@ -284,6 +292,7 @@ void Application::set_material(material &mater)
         glUniform1i(use_texture_loc, 0);
         glBindTexture(GL_TEXTURE_2D, 0);
     //}
+
 
 
 }

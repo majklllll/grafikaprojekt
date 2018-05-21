@@ -33,6 +33,7 @@ uniform vec3 material_ambient_color;
 uniform vec3 material_diffuse_color;
 uniform vec3 material_specular_color;
 uniform float material_shininess;
+uniform float material_alpha;
 
 out vec4 final_color;
 
@@ -47,7 +48,7 @@ void main()
   for(int i = 0; i < light_count; i++)
     result += get_point_light(lights[i], vertex_position_ws, normal, view_direction);
 
-  final_color = vec4(result, 0.5);
+  final_color = vec4(result, material_alpha);
 }
 
 vec3 get_point_light(Light light, vec3 position_ws, vec3 normal, vec3 view_direction) {

@@ -30,7 +30,7 @@ private:
       GLuint texture_id = UNDEFINED;
       GLuint texture_bump_id = UNDEFINED;
       float refr_index = 1.0f;
-      float dissolve = 1.0f;
+      float transparency = 1.0f;
   };
   struct light{
       glm::vec3 position;
@@ -66,6 +66,7 @@ private:
   GLint material_diffuse_color_loc = -1;
   GLint material_specular_color_loc = -1;
   GLint material_shininess_loc = -1;
+  GLint material_alpha_loc = -1;
 
   std::vector<std::unique_ptr<Mesh>> meshes;
   std::map<std::string, material> materials;
