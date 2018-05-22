@@ -293,10 +293,17 @@ void Application::drawMesh(Mesh mesh, material& mater) {
     set_material(mater);
 }
 
-void Application::drawPendulum(Mesh, Application::material &)
+void Application::drawPendulum(Mesh mesh, material& mater)
 {
+    float time = float(glfwGetTime());
     mesh.bind_vao();
     glm::mat4 model_matrix = glm::mat4(1.0f);
+
+
+    model_matrix = glm::translate(model_matrix, glm::vec3(-5.059f, 1.7f, 9.65f));
+    model_matrix = glm::rotate(model_matrix, glm::sin(4.0f*time)*0.5f, glm::vec3(0.0f, 0.0f, 1.0f));
+
+
     glUniformMatrix4fv(model_matrix_loc, 1, GL_FALSE, glm::value_ptr(model_matrix));
     set_material(mater);
 }
