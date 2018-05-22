@@ -149,6 +149,7 @@ public:
   void drawMesh(Mesh, material&);
   void createSkyBox();
   void render_sky_box();
+  void drawBlendedMeshes();
 
 
 

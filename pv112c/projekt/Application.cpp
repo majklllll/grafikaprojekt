@@ -216,18 +216,16 @@ void Application::render() {
     }
 
     // Window
-    drawMesh(*meshes[19], materials["sklo"]);
-    (*meshes[19]).draw();
     drawMesh(*meshes[20], materials["ram_okna"]);
     (*meshes[20]).draw();
 
+
+
     // Door
-    drawMesh(*meshes[21], materials["sklo"]);
-    (*meshes[21]).draw();
+
     drawMesh(*meshes[22], materials["ram_okna"]);
     (*meshes[22]).draw();
-    drawMesh(*meshes[23], materials["sklo"]);
-    (*meshes[23]).draw();
+
     drawMesh(*meshes[24], materials["gold"]);
     (*meshes[24]).draw();
 
@@ -253,17 +251,25 @@ void Application::render() {
     drawMesh(*meshes[31], materials["lady"]);
     (*meshes[31]).draw();
 
+    drawBlendedMeshes();
     //glUniform1f(time_loc, time);
 }
+void Application::drawBlendedMeshes()
+{
+    drawMesh(*meshes[21], materials["sklo"]);
+    (*meshes[21]).draw();
+    drawMesh(*meshes[19], materials["sklo"]);
+    (*meshes[19]).draw();
+    drawMesh(*meshes[23], materials["sklo"]);
+    (*meshes[23]).draw();
 
+}
 
 
 void Application::drawMesh(Mesh mesh, material& mater) {
     mesh.bind_vao();
     glm::mat4 model_matrix = glm::mat4(1.0f);
     glUniformMatrix4fv(model_matrix_loc, 1, GL_FALSE, glm::value_ptr(model_matrix));
-
-
     set_material(mater);
 }
 
@@ -302,7 +308,7 @@ void Application::render_sky_box()
                 glm::radians(45.0f),
                 aspect_ratio,
                 0.1f,
-                1000000.0f);
+                1500.0f);
 
     glUniformMatrix4fv(projection_matrix_skybox_loc, 1, GL_FALSE, glm::value_ptr(projection_matrix));
     glm::mat4 view_matrix = glm::lookAt(camera.get_eye_position(), camera.get_center_of_view(), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -317,6 +323,8 @@ void Application::render_sky_box()
 
     glDepthMask(GL_TRUE);
 }
+
+
 
 void Application::set_material(material &mater)
 {
