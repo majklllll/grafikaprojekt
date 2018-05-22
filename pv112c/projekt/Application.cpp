@@ -215,14 +215,45 @@ void Application::render() {
         (*meshes[4+i]).draw();
     }
 
-
+    // Window
     drawMesh(*meshes[19], materials["sklo"]);
     (*meshes[19]).draw();
-
     drawMesh(*meshes[20], materials["ram_okna"]);
     (*meshes[20]).draw();
 
-      //glUniform1f(time_loc, time);
+    // Door
+    drawMesh(*meshes[21], materials["sklo"]);
+    (*meshes[21]).draw();
+    drawMesh(*meshes[22], materials["ram_okna"]);
+    (*meshes[22]).draw();
+    drawMesh(*meshes[23], materials["sklo"]);
+    (*meshes[23]).draw();
+    drawMesh(*meshes[24], materials["gold"]);
+    (*meshes[24]).draw();
+
+    // Floor
+    drawMesh(*meshes[25], materials["floor"]);
+    (*meshes[25]).draw();
+
+    // Carpet
+    drawMesh(*meshes[26], materials["carpet"]);
+    (*meshes[26]).draw();
+
+    // Fireplace
+    drawMesh(*meshes[27], materials["fireplace"]);
+    (*meshes[27]).draw();
+    drawMesh(*meshes[28], materials["krbrimsa"]);
+    (*meshes[28]).draw();
+    drawMesh(*meshes[29], materials["stones"]);
+    (*meshes[29]).draw();
+    drawMesh(*meshes[30], materials["stones"]);
+    (*meshes[30]).draw();
+
+    // Painting Lady
+    drawMesh(*meshes[31], materials["lady"]);
+    (*meshes[31]).draw();
+
+    //glUniform1f(time_loc, time);
 }
 
 

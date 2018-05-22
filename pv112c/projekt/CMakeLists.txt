@@ -33,4 +33,10 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/grass_01_by_linolafett-d76wfe
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/mona-lisa.jpg" "${CMAKE_CURRENT_BINARY_DIR}/mona-lisa.jpg" COPYONLY)
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/bumpmap.jpg" "${CMAKE_CURRENT_BINARY_DIR}/bumpmap.jpg" COPYONLY)
 
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/floor.jpg" "${CMAKE_CURRENT_BINARY_DIR}/floor.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/carpet.jpg" "${CMAKE_CURRENT_BINARY_DIR}/carpet.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/stone_wall.jpg" "${CMAKE_CURRENT_BINARY_DIR}/stone_wall.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/fireplace.jpg" "${CMAKE_CURRENT_BINARY_DIR}/fireplace.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/images/lady.jpg" "${CMAKE_CURRENT_BINARY_DIR}/lady.jpg" COPYONLY)
+
 

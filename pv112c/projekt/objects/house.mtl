@@ -16,7 +16,7 @@ Ka 1 1 1
 Kd 0.75 1 1
 Ks 1 1 1
 Ns 32
-d 0.1
+d 0.3
 Tf 1 1 1
 Ni 1.5
 illum 7
@@ -31,6 +31,48 @@ illum 7
 newmtl ram_okna
 Ka 1 1 1
 Kd 0.41999998688698 0.20299999415874 0
+illum 7
+
+newmtl gold
+Ka 1 1 1
+Kd 0.87000000476837 0.59450000524521 0
+Ks 1 1 1
+Ns 32
+illum 7
+
+newmtl floor
+Ka 1 1 1
+Kd 0.80000001192093 0.80000001192093 0.80000001192093
+map_Kd floor.jpg
+illum 7
+
+newmtl carpet
+Ka 1 1 1
+Kd 0.80000001192093 0.80000001192093 0.80000001192093
+map_Kd carpet.jpg
+illum 7
+
+newmtl fireplace
+Ka 1 1 1
+Kd 0.80000001192093 0.80000001192093 0.80000001192093
+map_Kd fireplace.jpg
+illum 7
+
+newmtl krbrimsa
+Ka 1 1 1
+Kd 0.64999997615814 0.64999997615814 0.64999997615814
+illum 7
+
+newmtl stones
+Ka 1 1 1
+Kd 0.80000001192093 0.80000001192093 0.80000001192093
+map_Kd stone_wall.jpg
+illum 7
+
+newmtl lady
+Ka 1 1 1
+Kd 0.80000001192093 0.80000001192093 0.80000001192093
+map_Kd lady.jpg
 illum 7
 
 newmtl bumpy
