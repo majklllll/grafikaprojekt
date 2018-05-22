@@ -150,13 +150,22 @@ std::vector<Application::light> Application::get_lights()
             l0.ambient = glm::vec3( 0.05f, 0.05f, 0.05f);
             l0.diffuse = glm::vec3( 0.8f, 0.8f, 0.9f);
             l0.specular = glm::vec3( 1.0f, 1.0f, 1.0f);
-            l0.square = 0.032f;
-            l0.linear = 0.09f;
+            l0.square = 0.045f;
+            l0.linear = 0.15f;
             l0.constant = 1.0f;
             lights.push_back(l0);
         }
     }
 
+    light moon;
+    moon.position = glm::vec3(500.0f, 500.0f, 500.0f);
+    moon.ambient = glm::vec3( 0.05f, 0.05f, 0.05f);
+    moon.diffuse = glm::vec3( 0.99f, 0.99f, 0.99f);
+    moon.specular = glm::vec3( 1.0f, 1.0f, 1.0f);
+    moon.square = 0.0000032f;
+    moon.linear = 0.00009f;
+    moon.constant = 1.0f;
+    lights.push_back(moon);
 
     return lights;
 }
@@ -251,6 +260,18 @@ void Application::render() {
     drawMesh(*meshes[31], materials["lady"]);
     (*meshes[31]).draw();
 
+    // Cokoo clock
+    drawMesh(*meshes[32], materials["black"]);
+    (*meshes[32]).draw();
+    drawMesh(*meshes[33], materials["black"]);
+    (*meshes[33]).draw();
+    drawPendulum(*meshes[34], materials["gold"]);
+    (*meshes[34]).draw();
+    drawMesh(*meshes[35], materials["ram_okna"]);
+    (*meshes[35]).draw();
+    drawMesh(*meshes[36], materials["floor"]);
+    (*meshes[36]).draw();
+
     drawBlendedMeshes();
     //glUniform1f(time_loc, time);
 }
@@ -265,8 +286,15 @@ void Application::drawBlendedMeshes()
 
 }
 
-
 void Application::drawMesh(Mesh mesh, material& mater) {
+    mesh.bind_vao();
+    glm::mat4 model_matrix = glm::mat4(1.0f);
+    glUniformMatrix4fv(model_matrix_loc, 1, GL_FALSE, glm::value_ptr(model_matrix));
+    set_material(mater);
+}
+
+void Application::drawPendulum(Mesh, Application::material &)
+{
     mesh.bind_vao();
     glm::mat4 model_matrix = glm::mat4(1.0f);
     glUniformMatrix4fv(model_matrix_loc, 1, GL_FALSE, glm::value_ptr(model_matrix));
@@ -308,7 +336,7 @@ void Application::render_sky_box()
                 glm::radians(45.0f),
                 aspect_ratio,
                 0.1f,
-                1500.0f);
+                2000.0f);
 
     glUniformMatrix4fv(projection_matrix_skybox_loc, 1, GL_FALSE, glm::value_ptr(projection_matrix));
     glm::mat4 view_matrix = glm::lookAt(camera.get_eye_position(), camera.get_center_of_view(), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -323,8 +351,6 @@ void Application::render_sky_box()
 
     glDepthMask(GL_TRUE);
 }
-
-
 
 void Application::set_material(material &mater)
 {
@@ -359,7 +385,6 @@ void Application::set_material(material &mater)
 
 
 }
-
 
 void Application::on_mouse_position(double x, double y) {
     camera.on_mouse_move(x, y);

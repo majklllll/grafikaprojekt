@@ -147,6 +147,7 @@ public:
 
   // auxiliary methods
   void drawMesh(Mesh, material&);
+  void drawPendulum(Mesh, material&);
   void createSkyBox();
   void render_sky_box();
   void drawBlendedMeshes();
