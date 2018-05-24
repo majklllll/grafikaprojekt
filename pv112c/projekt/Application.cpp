@@ -228,13 +228,9 @@ void Application::render() {
     drawMesh(*meshes[20], materials["ram_okna"]);
     (*meshes[20]).draw();
 
-
-
     // Door
-
     drawMesh(*meshes[22], materials["ram_okna"]);
     (*meshes[22]).draw();
-
     drawMesh(*meshes[24], materials["gold"]);
     (*meshes[24]).draw();
 
@@ -271,6 +267,15 @@ void Application::render() {
     (*meshes[35]).draw();
     drawMesh(*meshes[36], materials["floor"]);
     (*meshes[36]).draw();
+
+    drawMesh(*meshes[37], materials["black"]);
+    (*meshes[37]).draw();
+    drawMesh(*meshes[38], materials["black"]);
+    (*meshes[38]).draw();
+    drawMesh(*meshes[39], materials["black"]);
+    (*meshes[39]).draw();
+    drawMesh(*meshes[40], materials["black"]);
+    (*meshes[40]).draw();
 
     drawBlendedMeshes();
     //glUniform1f(time_loc, time);
