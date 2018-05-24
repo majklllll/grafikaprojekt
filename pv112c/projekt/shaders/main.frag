@@ -12,6 +12,12 @@
     float constant;
     float linear;
     float square;
+
+    // only for flashlights
+    bool is_flashlight;
+    float cutoff;
+    float cutoff_out;
+    vec3 direction;
 };
 
 uniform Light lights[20];
@@ -87,9 +93,18 @@ vec3 get_point_light(Light light, vec3 position_ws, vec3 normal, vec3 view_direc
   float distance    = length(light.position - position_ws);
   float attenuation = 1.0 / (distance*distance * light.square + distance * light.linear + light.constant);
 
-  ambient *= attenuation;
-  diffuse *= attenuation;
-  specular *= attenuation;
+  float intensity = 1.0f;
+
+  // this part is taken from tutorial on learnopengl for smooth attenuation of cone for nicer results
+  if(light.is_flashlight) {
+    float theta     = dot(light_direction, normalize(-light.direction));
+    float epsilon   = light.cutoff - light.cutoff_out;
+    intensity = clamp((theta - light.cutoff_out) / epsilon, 0.0, 1.0);
+  }
+
+  ambient *= attenuation * intensity;
+  diffuse *= attenuation * intensity;
+  specular *= attenuation * intensity;
 
   vec3 result = ambient + diffuse + specular;
   return result;

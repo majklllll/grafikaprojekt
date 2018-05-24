@@ -70,6 +70,7 @@ newmtl stones
 Ka 1 1 1
 Kd 0.80000001192093 0.80000001192093 0.80000001192093
 map_Kd stone_wall.jpg
+bump stone_wall_normal.jpg
 illum 7
 
 newmtl lady
@@ -81,6 +82,12 @@ illum 7
 newmtl black
 Ka 1 1 1
 Kd 0 0 0
+illum 7
+
+newmtl road
+Ka 1 1 1
+Kd 0.80000001192093 0.80000001192093 0.80000001192093
+map_Kd road.jpg
 illum 7
 
 newmtl bumpy

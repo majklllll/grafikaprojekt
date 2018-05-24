@@ -41,6 +41,12 @@ private:
       float constant;
       float linear;
       float square;
+
+      // only for flashlights
+      bool is_flashlight = false;
+      float cutoff;
+      float cutoff_out;
+      glm::vec3 direction;
   };
 
   // Locations of uniforms for positioning and projecting object

@@ -157,7 +157,7 @@ std::vector<Application::light> Application::get_lights()
         }
     }
 
-    light moon;
+    /*light moon;
     moon.position = glm::vec3(500.0f, 500.0f, 500.0f);
     moon.ambient = glm::vec3( 0.05f, 0.05f, 0.05f);
     moon.diffuse = glm::vec3( 0.99f, 0.99f, 0.99f);
@@ -165,7 +165,36 @@ std::vector<Application::light> Application::get_lights()
     moon.square = 0.0000032f;
     moon.linear = 0.00009f;
     moon.constant = 1.0f;
-    lights.push_back(moon);
+    lights.push_back(moon);*/
+
+    for(int i=0; i<3; i++) {
+        float z = + -42.655f + i*47.1f;//4.575f
+        light lamp;
+        lamp.position = glm::vec3(31.6f, 9.9f, z);
+        lamp.ambient = glm::vec3( 0.05f, 0.05f, 0.05f);
+        lamp.diffuse = glm::vec3( 0.99f, 0.99f, 0.99f);
+        lamp.specular = glm::vec3( 1.0f, 1.0f, 1.0f);
+        lamp.square = 0.0019f;
+        lamp.linear = 0.0022f;
+        lamp.constant = 1.0f;
+        lamp.is_flashlight = true;
+        lamp.cutoff = glm::cos(glm::radians(43.0f));
+        lamp.cutoff_out = glm::cos(glm::radians(55.0f));
+        lamp.direction = glm::vec3(-4.0f,-10.0f,0.0f);
+        lights.push_back(lamp);
+
+        /*light lamp_itself;
+        lamp_itself.position = glm::vec3(31.6f, 9.9f, z);
+        lamp_itself.ambient = glm::vec3( 0.05f, 0.05f, 0.05f);
+        lamp_itself.diffuse = glm::vec3( 0.99f, 0.99f, 0.99f);
+        lamp_itself.specular = glm::vec3( 1.0f, 1.0f, 1.0f);
+        lamp_itself.square = 0.19f;
+        lamp_itself.linear = 0.0022f;
+        lamp_itself.constant = 1.0f;
+        lights.push_back(lamp_itself);*/
+    }
+
+
 
     return lights;
 }
@@ -186,6 +215,14 @@ void Application::set_lights()
         set_float(shader, lstr + "square", lights[i].square);
         set_float(shader, lstr + "linear", lights[i].linear);
         set_float(shader, lstr + "constant", lights[i].constant);
+
+        set_int(shader, lstr + "is_flashlight", lights[i].is_flashlight);
+
+        if(lights[i].is_flashlight) {
+            set_float(shader, lstr + "cutoff", lights[i].cutoff);
+            set_float(shader, lstr + "cutoff_out", lights[i].cutoff_out);
+            set_vec3(shader, lstr + "direction", lights[i].direction);
+        }
     }
     set_int(shader, "light_count", (int)lights.size());
     cout << "Svetel:" << to_string(lights.size()) << endl;
@@ -268,7 +305,8 @@ void Application::render() {
     drawMesh(*meshes[36], materials["floor"]);
     (*meshes[36]).draw();
 
-    drawMesh(*meshes[37], materials["black"]);
+    // Street
+    drawMesh(*meshes[37], materials["road"]);
     (*meshes[37]).draw();
     drawMesh(*meshes[38], materials["black"]);
     (*meshes[38]).draw();
